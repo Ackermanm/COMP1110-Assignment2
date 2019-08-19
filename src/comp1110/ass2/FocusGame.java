@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public class FocusGame {
 
+    private Color[][] boardstates = {
+
+    };
+
+    private Piece[][] pieces = new Piece[5][9];
     /**
      * Determine whether a piece placement is well-formed according to the
      * following criteria:
