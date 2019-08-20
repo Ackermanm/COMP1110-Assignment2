@@ -14,6 +14,8 @@ public class FocusGame {
 
     };
 
+    private int m;
+
     private Piece[][] pieces = new Piece[5][9];
     /**
      * Determine whether a piece placement is well-formed according to the
