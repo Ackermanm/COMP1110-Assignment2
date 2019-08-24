@@ -49,7 +49,27 @@ public class FocusGame {
      */
     public static boolean isPlacementStringWellFormed(String placement) { // FIXME Task 3: determine whether a placement is well-formed
 
-        return false;
+        if (placement.equals("") || placement.length() % 4 != 0) {
+            return false;
+        } else {
+            boolean check = true; //check every piece is well placed
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                if (!(isPiecePlacementWellFormed(placement.substring(i, i + 4)))) {
+                    check = false;
+                    break;
+                }
+            }
+
+            int counter = 0; // count the amount of duplicate piece
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                for (int j = i + 4; j < placement.length(); j = j + 4) {
+                    if (placement.charAt(i) == placement.charAt(j)) {
+                        counter++;
+                    }
+                }
+            }
+            return check && (counter == 0) ? true : false;
+        }
     }
 
     /**
