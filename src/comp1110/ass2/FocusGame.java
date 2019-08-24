@@ -29,9 +29,13 @@ public class FocusGame {
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
-    static boolean isPiecePlacementWellFormed(String piecePlacement) {
-        // FIXME Task 2: determine whether a piece placement is well-formed
-        return false;
+    static boolean isPiecePlacementWellFormed(String piecePlacement) { // FIXME Task 2: determine whether a piece placement is well-formed
+
+        return (piecePlacement.length() == 4)
+                && (piecePlacement.charAt(0) >= 'a' && piecePlacement.charAt(0) <= 'j')
+                && (piecePlacement.charAt(1) >= '0' && piecePlacement.charAt(1) <= '8')
+                && (piecePlacement.charAt(2) >= '0' && piecePlacement.charAt(2) <= '4')
+                && (piecePlacement.charAt(3) >= '0' && piecePlacement.charAt(3) <= '3')? true : false;
     }
 
     /**
