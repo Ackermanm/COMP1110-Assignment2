@@ -29,9 +29,13 @@ public class FocusGame {
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
-    static boolean isPiecePlacementWellFormed(String piecePlacement) {
-        // FIXME Task 2: determine whether a piece placement is well-formed
-        return false;
+    static boolean isPiecePlacementWellFormed(String piecePlacement) { // FIXME Task 2: determine whether a piece placement is well-formed
+
+        return (piecePlacement.length() == 4)
+                && (piecePlacement.charAt(0) >= 'a' && piecePlacement.charAt(0) <= 'j')
+                && (piecePlacement.charAt(1) >= '0' && piecePlacement.charAt(1) <= '8')
+                && (piecePlacement.charAt(2) >= '0' && piecePlacement.charAt(2) <= '4')
+                && (piecePlacement.charAt(3) >= '0' && piecePlacement.charAt(3) <= '3')? true : false;
     }
 
     /**
@@ -43,9 +47,29 @@ public class FocusGame {
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
      */
-    public static boolean isPlacementStringWellFormed(String placement) {
-        // FIXME Task 3: determine whether a placement is well-formed
-        return false;
+    public static boolean isPlacementStringWellFormed(String placement) { // FIXME Task 3: determine whether a placement is well-formed
+
+        if (placement.equals("") || placement.length() % 4 != 0) {
+            return false;
+        } else {
+            boolean check = true; //check every piece is well placed
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                if (!(isPiecePlacementWellFormed(placement.substring(i, i + 4)))) {
+                    check = false;
+                    break;
+                }
+            }
+
+            int counter = 0; // count the amount of duplicate piece
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                for (int j = i + 4; j < placement.length(); j = j + 4) {
+                    if (placement.charAt(i) == placement.charAt(j)) {
+                        counter++;
+                    }
+                }
+            }
+            return check && (counter == 0) ? true : false;
+        }
     }
 
     /**
