@@ -1,5 +1,6 @@
 package comp1110.ass2;
-
+import comp1110.ass2.Color.*;
+import comp1110.ass2.Piece.*;
 import java.util.Set;
 
 /**
@@ -11,6 +12,11 @@ import java.util.Set;
 public class FocusGame {
 
     private Color[][] boardstates = {
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
 
     };
 
@@ -89,6 +95,7 @@ public class FocusGame {
         // FIXME Task 5: determine whether a placement string is valid
         return false;
     }
+
 
     /**
      * Given a string describing a placement of pieces and a string describing
