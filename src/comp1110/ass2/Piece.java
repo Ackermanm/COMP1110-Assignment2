@@ -24,17 +24,18 @@ public class Piece {
     }
 
     public Rotation placementToRotation(String placement){
-        for (int i=3;i<40;i=i+4){
-            if (placement.charAt(i) == '0') {return Rotation.ZERO; }
-            if (placement.charAt(i) == 'S') {return Rotation.ONE; }
-            if (placement.charAt(i) == 'E') {return Rotation.TWO; }
-            if (placement.charAt(i) == 'W') {return Rotation.THREE; }
+        for (int i=0;i<placement.length();i+=4){
+            if (placement.charAt(i+3) == '0') {return Rotation.ZERO; }
+            if (placement.charAt(i+3) == '1') {return Rotation.ONE; }
+            if (placement.charAt(i+3) == '2') {return Rotation.TWO; }
+            if (placement.charAt(i+3) == '3') {return Rotation.THREE; }
         }
         return Rotation.ZERO;
     }
 
     public Location placementToLocation(String placement) {
-
-        return null;
+        int x =  Integer.parseInt(Character.toString(placement.charAt(1)));
+        int y =  Integer.parseInt(Character.toString(placement.charAt(2)));
+        return new Location(x,y);
     }
 }

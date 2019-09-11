@@ -3,6 +3,8 @@ import comp1110.ass2.Color.*;
 import comp1110.ass2.Piece.*;
 import java.util.Set;
 
+import static comp1110.ass2.Color.NONE;
+
 /**
  * This class provides the text interface for the IQ Focus Game
  * <p>
@@ -93,7 +95,43 @@ public class FocusGame {
      */
     public static boolean isPlacementStringValid(String placement) {
         // FIXME Task 5: determine whether a placement string is valid
-        return false;
+        Color[][] boardstates = {
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+
+        };
+        for (int i = 0 ; i< placement.length();i+=4 ){
+            String pieceString = placement.substring(i,i+4);
+            Piece piece = new Piece(pieceString);
+            int originalY = piece.getLocation().getX();
+            int originalX = piece.getLocation().getY();
+            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9){
+                return false;
+            }
+            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getX();
+            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getY();
+            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9){
+                return false;
+            }
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX() ; j++){
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++){
+                    int x = piece.getLocation().getY()+j;
+                    int y = piece.getLocation().getX()+k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null){
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE)  {
+                            boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
+                        }
+                        else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 
