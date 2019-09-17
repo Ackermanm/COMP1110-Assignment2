@@ -10,19 +10,12 @@
 #
 
 declaration: >-
-  We declare that everything we have submitted for Stage C of this assignment
-  and all stages before it is entirely our own work, with the following
+  I declare that everything I have submitted for stage D of this assignment
+  and all stages before it is entirely my own work, with the following
   exceptions:
 
 
 
-
-# Sign *your* name and uids here. (Remove entries if you have fewer
-# than three members.)
-signatures:
-  - name: Xing Meng
-    uid: u6483085
-  - name: Yafei Liu
-    uid: u6605935
-  - name: Bowen Tan
-    uid: u6822656
+# sign *your* name and uid here
+name: Bowen Tan
+uid: u6822656
