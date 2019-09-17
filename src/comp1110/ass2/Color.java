@@ -18,4 +18,13 @@ public enum Color {
             return 'F';
         }
     }
+    public static Color toColor(char c){
+        switch (c){
+            case 'G': return GREEN;
+            case 'B': return BLUE;
+            case 'R': return RED;
+            case 'W': return WHITE;
+        }
+        return NONE;
+    }
 }
