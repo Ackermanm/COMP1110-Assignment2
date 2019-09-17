@@ -6,4 +6,3 @@ public class C {
         return super.toString();
     }
 }
-
