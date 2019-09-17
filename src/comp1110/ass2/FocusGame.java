@@ -1,6 +1,9 @@
 package comp1110.ass2;
-
+import comp1110.ass2.Color.*;
+import comp1110.ass2.Piece.*;
 import java.util.Set;
+
+import static comp1110.ass2.Color.NONE;
 
 /**
  * This class provides the text interface for the IQ Focus Game
@@ -11,6 +14,11 @@ import java.util.Set;
 public class FocusGame {
 
     private Color[][] boardstates = {
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
 
     };
 
@@ -29,9 +37,13 @@ public class FocusGame {
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
      */
-    static boolean isPiecePlacementWellFormed(String piecePlacement) {
-        // FIXME Task 2: determine whether a piece placement is well-formed
-        return false;
+    static boolean isPiecePlacementWellFormed(String piecePlacement) { // FIXME Task 2: determine whether a piece placement is well-formed
+
+        return (piecePlacement.length() == 4)
+                && (piecePlacement.charAt(0) >= 'a' && piecePlacement.charAt(0) <= 'j')
+                && (piecePlacement.charAt(1) >= '0' && piecePlacement.charAt(1) <= '8')
+                && (piecePlacement.charAt(2) >= '0' && piecePlacement.charAt(2) <= '4')
+                && (piecePlacement.charAt(3) >= '0' && piecePlacement.charAt(3) <= '3')? true : false;
     }
 
     /**
@@ -43,9 +55,29 @@ public class FocusGame {
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
      */
-    public static boolean isPlacementStringWellFormed(String placement) {
-        // FIXME Task 3: determine whether a placement is well-formed
-        return false;
+    public static boolean isPlacementStringWellFormed(String placement) { // FIXME Task 3: determine whether a placement is well-formed
+
+        if (placement.equals("") || placement.length() % 4 != 0) {
+            return false;
+        } else {
+            boolean check = true; //check every piece is well placed
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                if (!(isPiecePlacementWellFormed(placement.substring(i, i + 4)))) {
+                    check = false;
+                    break;
+                }
+            }
+
+            int counter = 0; // count the amount of duplicate piece
+            for (int i = 0; i < placement.length(); i = i + 4) {
+                for (int j = i + 4; j < placement.length(); j = j + 4) {
+                    if (placement.charAt(i) == placement.charAt(j)) {
+                        counter++;
+                    }
+                }
+            }
+            return check && (counter == 0) ? true : false;
+        }
     }
 
     /**
@@ -63,8 +95,45 @@ public class FocusGame {
      */
     public static boolean isPlacementStringValid(String placement) {
         // FIXME Task 5: determine whether a placement string is valid
-        return false;
+        Color[][] boardstates = {
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+
+        };
+        for (int i = 0 ; i< placement.length();i+=4 ){
+            String pieceString = placement.substring(i,i+4);
+            Piece piece = new Piece(pieceString);
+            int originalY = piece.getLocation().getX();
+            int originalX = piece.getLocation().getY();
+            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9){
+                return false;
+            }
+            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getX();
+            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getY();
+            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9){
+                return false;
+            }
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX() ; j++){
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++){
+                    int x = piece.getLocation().getY()+j;
+                    int y = piece.getLocation().getX()+k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null){
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE)  {
+                            boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
+                        }
+                        else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
+
 
     /**
      * Given a string describing a placement of pieces and a string describing
