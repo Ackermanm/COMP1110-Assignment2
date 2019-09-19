@@ -319,24 +319,28 @@ public class FocusGame {
             String placedPieceType = Character.toString(placement.charAt(i)).toUpperCase();
             notPlacedPieceType = notPlacedPieceType.replace("" + placedPieceType + "", "");
         }
-        //m is four rotations, l is the piece types which have not been used.
-//        Color[][] temp = new Color[5][9];
+        //l is the piece types which have not been used.
         if (notPlacedPieceType != null && notPlacedPieceType != "") {
             for (int l = 0; l < notPlacedPieceType.length(); l++) {
-                for (Rotation r : Rotation.values()) {
-                    String pieceString = Character.toString(notPlacedPieceType.charAt(l)).toLowerCase() + "" + col + "" + "" + row + "" + r.rotationToNumber();
-                    Color[][] boardstates = FocusGame.updateBoardstates(placement);
-//                    Color[][] boardstatesWithchallenge = FocusGame.newBoardWithChallenge(placement,challenge);
-                    Color[][] challengeBoardstates = FocusGame.newBoardWithChallenge(challenge);
-                    if (FocusGame.placeConsistentWithChallenge(challengeBoardstates, boardstates)) {
-                        if (FocusGame.isPlacementStringValid(boardstates, pieceString)) {
-                            Color[][] pieceStringBoardstates = FocusGame.updateBoardstates(boardstates, pieceString);
-                            if (FocusGame.placeConsistentWithChallenge(challengeBoardstates, pieceStringBoardstates)) {
-                                if ((col == 0 && row == 0) || (col == 8 && row == 0) || (col == 0 && row == 3) || (col == 1 && row == 4) || (col == 8 && row == 3) || (col == 7 && row == 4)) {
-                                    if (boardstates[row][col] != NONE) {
+                for (int i = -3; i <= 0; i++) {
+                    for (int j = -3; j <= 0; j++) {
+                        int tempCol = col + i;
+                        int tempRow = row + j;
+                        if (tempCol >= 0 && tempRow >= 0) {
+                            for (Rotation r : Rotation.values()) {
+                                String pieceString = Character.toString(notPlacedPieceType.charAt(l)).toLowerCase() + "" + tempCol + "" + "" + tempRow + "" + r.rotationToNumber();
+                                Color[][] boardstates = updateBoardstates(placement);
+                                Color[][] challengeBoardstates = newBoardWithChallenge(challenge);
+                                Color[][] pieceStringBoardstates = updateBoardstates(pieceString);
+                                if (placeConsistentWithChallenge(challengeBoardstates, boardstates)
+                                        && isPlacementStringValid(boardstates, pieceString)
+                                        && placeConsistentWithChallenge(challengeBoardstates, pieceStringBoardstates)
+                                ) {
+                                    Color[][] putPieceString = updateBoardstates(boardstates, pieceString);
+                                    if (putPieceString[row][col] != NONE) {
                                         set.add(pieceString);
                                     }
-                                } else set.add(pieceString);
+                                }
                             }
                         }
                     }
@@ -346,9 +350,8 @@ public class FocusGame {
         if (set.size() == 0) {
             return null;
         } else return set;
-//        return null;
-    }
 
+    }
     /**
      * Return the canonical encoding of the solution to a particular challenge.
      *
