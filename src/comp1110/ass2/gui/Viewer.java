@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Piece;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -31,6 +34,23 @@ public class Viewer extends Application {
     private final Group controls = new Group();
     private TextField textField;
 
+    /* Graphical representations of pieces */
+    class GPiece extends ImageView {
+
+        GPiece(char piece) {
+            setFitHeight(2 * SQUARE_SIZE);
+            setFitWidth(SQUARE_SIZE);
+        }
+
+        GPiece(char piece, int orientation) {
+
+        }
+
+        GPiece(char piece, int x, int y) {
+
+        }
+    }
+
     /**
      * Draw a placement in the window, removing any previously drawn one
      *
@@ -38,6 +58,9 @@ public class Viewer extends Application {
      */
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
+        Piece piece = new Piece(placement);
+        ImageView a0 = new ImageView();
+        a0.setImage(new Image(Viewer.class.getResource(URI_BASE + "a.png").toString()));
     }
 
     /**
