@@ -34,6 +34,11 @@
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 
+declaration: >-
+  I declare that everything I have submitted for stage E of this assignment
+  and all stages before it is entirely my own work, with the following
+  exceptions:
+
 
 
 # sign *your* name and uid here
