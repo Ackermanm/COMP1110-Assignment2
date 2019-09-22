@@ -1,7 +1,6 @@
 package comp1110.ass2;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public enum Color {
