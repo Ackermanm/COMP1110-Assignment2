@@ -12,3 +12,4 @@ public enum Rotation {
         return "0";
     }
 }
+
