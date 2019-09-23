@@ -40,13 +40,10 @@ public enum Color {
 
     @Test
     public void testColor() {
-        char a = 'G';
-        char b = 'B';
-        char c = 'R';
-        char d = 'W';
-        assertEquals(GREEN, toColor(a));
-        assertEquals(BLUE, toColor(b));
-        assertEquals(RED, toColor(c));
-        assertEquals(WHITE, toColor(d));
+        assertEquals('W', Color.WHITE);
+        assertEquals('G', Color.GREEN);
+        assertEquals('B', Color.BLUE);
+        assertEquals('R', Color.RED);
+        assertEquals('N', Color.NONE);
     }
 }
