@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
         private void test(Rotation x, char expectValue) {
             String out = x.toString();
-            assertTrue("Expected " + expectValue + " for input rotation" + x +
+            assertTrue("Expected " + expectValue + " for input rotation " + x +
                     ", but got " + out + ".", out.equals(expectValue));
         }
 

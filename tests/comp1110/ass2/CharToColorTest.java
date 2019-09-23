@@ -13,7 +13,7 @@ public class CharToColorTest {
     private void test(char x, Color expected) {
         Color a;
         a = Color.toColor(x);
-        assertTrue("Expected " + expected + " for input color" + x +
+        assertTrue("Expected " + expected + " for input char " + x +
                 ", but got " + a + ".", a == expected);
     }
 

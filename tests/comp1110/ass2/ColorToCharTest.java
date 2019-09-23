@@ -11,7 +11,7 @@ public class ColorToCharTest {
 
     private void test(Color x, char expectValue) {
         char out = x.toChar();
-        assertTrue("Expected " + expectValue + " for input color" + x +
+        assertTrue("Expected " + expectValue + " for input color " + x +
                 ", but got " + out + ".", out == expectValue);
     }
 
