@@ -1,8 +1,5 @@
 package comp1110.ass2;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 public enum Color {
     GREEN, BLUE, RED, WHITE, NONE, FATHER;
 
@@ -37,13 +34,4 @@ public enum Color {
         return NONE;
     }
 
-
-    @Test
-    public void testColor() {
-        assertEquals('W', Color.WHITE);
-        assertEquals('G', Color.GREEN);
-        assertEquals('B', Color.BLUE);
-        assertEquals('R', Color.RED);
-        assertEquals('N', Color.NONE);
-    }
 }
