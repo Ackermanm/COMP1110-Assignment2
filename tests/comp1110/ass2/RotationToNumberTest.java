@@ -3,26 +3,52 @@ package comp1110.ass2;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+
 import static org.junit.Assert.assertTrue;
 
-    public class RotationToNumberTest {
-        @Rule
-        public Timeout globalTimeout = Timeout.millis(1000);
+public class RotationToNumberTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(1000);
 
-        private void test(Rotation x, char expectValue) {
-            String out = x.toString();
-            assertTrue("Expected " + expectValue + " for input rotation " + x +
-                    ", but got " + out + ".", out.equals(expectValue));
+    private void test(Rotation x, char expectValue) {
+        char out = rotationToChar(x);
+        assertTrue("Expected " + expectValue + " for input rotation " + x +
+                ", but got " + out + ".", expectValue == out);
+    }
+
+    @Test
+    public void testZERO() {
+        test(Rotation.ZERO, '0');
+    }
+    @Test
+    public void testONE() {
+        test(Rotation.ONE, '1');
+    }
+    @Test
+    public void testTWO() {
+        test(Rotation.TWO, '2');
+    }
+    @Test
+    public void testTHREE() {
+        test(Rotation.THREE, '3');
+    }
+
+    public char rotationToChar(Rotation x) {
+        if (x == Rotation.ZERO) {
+            return '0';
         }
-
-        @Test
-        public void testRotationToNumber() {
-            test(Rotation.ZERO, '0');
-
-            test(Rotation.ONE, '1');
-
-            test(Rotation.TWO, '2');
-
-            test(Rotation.THREE, '3');
+        if (x == Rotation.ONE) {
+            return '1';
         }
-    } 
+        if (x == Rotation.TWO) {
+            return '2';
+        }
+        if (x == Rotation.THREE) {
+            return '3';
+        }else{
+            return ' ';
+        }
+    }
+}
+
+
