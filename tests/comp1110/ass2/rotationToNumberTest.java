@@ -25,4 +25,4 @@ import static org.junit.Assert.assertTrue;
 
             test(Rotation.THREE, '3');
         }
-    }
+    } 
