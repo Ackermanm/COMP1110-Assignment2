@@ -12,8 +12,8 @@ public class RotationToNumberTest {
 
     private void test(Rotation x, char expectValue) {
         char out = rotationToChar(x);
-        assertTrue("Expected " + expectValue + " for input rotation " + x +
-                ", but got " + out + ".", expectValue == out);
+        assertTrue("Expected " + expectValue + " , but got " + out + ".",
+                expectValue == out);
     }
 
     @Test
@@ -32,6 +32,7 @@ public class RotationToNumberTest {
     public void testTHREE() {
         test(Rotation.THREE, '3');
     }
+
 
     public char rotationToChar(Rotation x) {
         if (x == Rotation.ZERO) {
