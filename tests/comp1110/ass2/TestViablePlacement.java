@@ -15,13 +15,27 @@ public class TestViablePlacement {
         Color[][] withChallenge = FocusGame.newBoardWithChallenge(challenge);
         Color[][] noChallenge = FocusGame.updateBoardstates(placement);
         boolean out = FocusGame.placeConsistentWithChallenge(withChallenge,noChallenge);
-        assertTrue(out == expected);
+        assertTrue("The challenge was "+challenge+", expected "+expected+" and got "+out,out == expected);
         assertFalse("Expected "+expected+" but got "+out,out != expected);
     }
     @Test
-    public void testRightSolution(){
+    public void testSimpleSolution(){
         boolean a = true;
-        for (int i = 0; i< SOLUTIONS.length-4;i++){
+        for (int i = 0; i< SOLUTIONS.length-84;i++){
+            test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
+        }
+    }
+    @Test
+    public void testJuniorSolution(){
+        boolean a = true;
+        for (int i = SOLUTIONS.length-84; i< SOLUTIONS.length-44;i++){
+            test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
+        }
+    }
+    @Test
+    public void testDifficultSolution(){
+        boolean a = true;
+        for (int i = SOLUTIONS.length-44; i< SOLUTIONS.length-4;i++){
             test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
         }
     }
@@ -282,4 +296,5 @@ public class TestViablePlacement {
             new Solution("BRBBRBBBB",
                     "a021b102c502d223e411f811g611h000i333j432")
     };
+
 }
