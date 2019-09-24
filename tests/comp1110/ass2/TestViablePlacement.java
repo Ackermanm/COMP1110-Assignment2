@@ -10,7 +10,15 @@ import static org.junit.Assert.assertTrue;
 public class TestViablePlacement {
     @Rule
     public Timeout globalTimeout = Timeout.millis(1000);
-
+    /**
+    * Test whether the placement string is consistent with challenge.
+    *
+    * @param placement A String which need to place on the board.
+    * @param challenge A challenge string which is an objective.
+    * @param expected The method return boolean
+    *
+    * @Return Trun if the placement string is consistent with challenge.
+    */
     public void test(String challenge, String placement, boolean expected){
         Color[][] withChallenge = FocusGame.newBoardWithChallenge(challenge);
         Color[][] noChallenge = FocusGame.updateBoardstates(placement);
@@ -18,6 +26,11 @@ public class TestViablePlacement {
         assertTrue("The challenge was "+challenge+", expected "+expected+" and got "+out,out == expected);
         assertFalse("Expected "+expected+" but got "+out,out != expected);
     }
+
+    /**
+    * Test the first 40 simple objectives and placement.
+     * @Return AssertTrue is the placement string is consistent with challenge.
+    * */
     @Test
     public void testSimpleSolution(){
         boolean a = true;
@@ -25,6 +38,10 @@ public class TestViablePlacement {
             test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
         }
     }
+    /**
+     * Test the second 40 junior objectives and placement.
+     * @Return AssertTrue is the placement string is consistent with challenge.
+     * */
     @Test
     public void testJuniorSolution(){
         boolean a = true;
@@ -32,6 +49,10 @@ public class TestViablePlacement {
             test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
         }
     }
+    /**
+     * Test the third 40 difficult objectives and placement.
+     * @Return AssertTrue is the placement string is consistent with challenge.
+     * */
     @Test
     public void testDifficultSolution(){
         boolean a = true;
@@ -39,6 +60,10 @@ public class TestViablePlacement {
             test(SOLUTIONS[i].objective,SOLUTIONS[i].placement,true);
         }
     }
+    /**
+     * Test the last four wrong objectives and placement.
+     * @Return AssertFalse is the placement string is not consistent with challenge.
+     * */
     @Test
     public void testWrongSolution(){
         boolean a = true;
