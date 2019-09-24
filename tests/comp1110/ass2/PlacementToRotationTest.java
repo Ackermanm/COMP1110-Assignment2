@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PlacementToRotationTest {
     @Rule
-    public Timeout globalTimeout = Timeout.millis(1000);
+    public Timeout globalTimeout = Timeout.millis(500);
 
     private void test(String placement, Rotation expectValue) {
         char out = placement.charAt(3);
@@ -88,7 +88,7 @@ public class PlacementToRotationTest {
     }
 
 
-    public Rotation getRotation(char x) {
+    private Rotation getRotation(char x) {
         if (x == '0') {
             return Rotation.ZERO;
         }
