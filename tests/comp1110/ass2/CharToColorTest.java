@@ -36,7 +36,6 @@ public class CharToColorTest {
     public void testR() {
         test('R', Color.RED);
     }
-
     @Test
     public void testN() {
         test('N', Color.NONE);

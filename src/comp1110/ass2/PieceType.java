@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import static comp1110.ass2.Color.*;
+
 import static comp1110.ass2.Rotation.*;
 public enum PieceType {
     A, B, C, D, E, F, G, H, I, J;
@@ -195,3 +196,4 @@ public enum PieceType {
         return rithtCornerLoation;
     }
 }
+
