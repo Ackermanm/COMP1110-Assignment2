@@ -6,25 +6,32 @@ public enum Color {
     public char toChar() {
         if (this == GREEN) {
             return 'G';
-        }else if (this == BLUE) {
+        } else if (this == BLUE) {
             return 'B';
-        }else if (this == RED) {
+        } else if (this == RED) {
             return 'R';
-        }else if (this == WHITE) {
+        } else if (this == WHITE) {
             return 'W';
-        }else if (this == NONE){
+        } else if (this == NONE) {
             return 'N';
-        }else {
+        } else {
             return 'F';
         }
     }
-    public static Color toColor(char c){
-        switch (c){
-            case 'G': return GREEN;
-            case 'B': return BLUE;
-            case 'R': return RED;
-            case 'W': return WHITE;
+
+
+    public static Color toColor(char c) {
+        switch (c) {
+            case 'G':
+                return GREEN;
+            case 'B':
+                return BLUE;
+            case 'R':
+                return RED;
+            case 'W':
+                return WHITE;
         }
         return NONE;
     }
+
 }
