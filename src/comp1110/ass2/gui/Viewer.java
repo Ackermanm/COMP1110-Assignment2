@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.FocusGame;
 import comp1110.ass2.Piece;
 import comp1110.ass2.PieceType;
 import comp1110.ass2.Rotation;
@@ -77,10 +78,18 @@ public class Viewer extends Application {
             this.pieceID = piece;
             int height = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rotation)).getX();
             int width = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rotation)).getY();
-            setFitHeight(height * SQUARE_SIZE);
-            setFitWidth(width * SQUARE_SIZE);
-            this.setImage(new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString()));
+            if (rotation == '0' || rotation == '2'){
+                setFitHeight(height * SQUARE_SIZE);
+                setFitWidth(width * SQUARE_SIZE);
+            }
+            if (rotation == '1' || rotation == '3') {
+                setFitHeight(width * SQUARE_SIZE);
+                setFitWidth(height * SQUARE_SIZE);
+            }
             this.setRotate((rotation-'0')*90);
+
+            this.setImage(new Image(Viewer.class.getResource(URI_BASE + pieceID + ".png").toString()));
+
             this.setEffect(dropShadow);
         }
     }
@@ -132,23 +141,31 @@ public class Viewer extends Application {
     void makePlacement(String placement) {//Check valid placement, set rotation function.
         // FIXME Task 4: implement the simple placement viewer
         this.placement.getChildren().clear();
-
+        if (!FocusGame.isPlacementStringWellFormed(placement) || !FocusGame.isPlacementStringValid(placement)){
+            System.out.println("Bad placement!");
+            return;
+        }
         if (placement.length() == 0) {
             return;
         }
-
         for (int i = 0; i < placement.length(); i+=4) {
-            ShowPiece piece = new ShowPiece(placement.charAt(i),placement.charAt(i+3));
+            ShowPiece showPiece = new ShowPiece(placement.charAt(i),placement.charAt(i+3));
             int x = placement.charAt(i+1) - '0';
             int y = placement.charAt(i+2) - '0';
 
-            piece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
-            piece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
-            double k = PLAY_AREA_X + (x * SQUARE_SIZE);
-            double j = PLAY_AREA_Y + (y * SQUARE_SIZE);
-
-
-            this.placement.getChildren().add(piece);
+            showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
+            showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
+            if (placement.charAt(i+3) == '1' || placement.charAt(i+3) == '3') {
+                if (placement.charAt(i) == 'a' || placement.charAt(i) == 'd' || placement.charAt(i) == 'e' || placement.charAt(i) == 'g') {
+                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
+                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
+                }
+                if (placement.charAt(i) == 'b' || placement.charAt(i) == 'c' || placement.charAt(i) == 'j' ||  placement.charAt(i) == 'f') {
+                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - SQUARE_SIZE);
+                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + SQUARE_SIZE);
+                }
+            }
+            this.placement.getChildren().add(showPiece);
         }
 
 //        this.placement.setOpacity(0);
@@ -173,8 +190,8 @@ public class Viewer extends Application {
         HBox hb = new HBox();
         hb.getChildren().addAll(label1, textField, button);
         hb.setSpacing(10);
-        hb.setLayoutX(130);
-        hb.setLayoutY(VIEWER_HEIGHT - 50);
+        hb.setLayoutX(550);
+        hb.setLayoutY(VIEWER_HEIGHT - 100);
         controls.getChildren().add(hb);
     }
 
@@ -182,14 +199,14 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("FocusGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
-//        root.getChildren().add(controls);
-//        makeControls();
-        makePlacement("h420j000a400");
+        root.getChildren().add(controls);
         root.getChildren().add(board);
         root.getChildren().add(placement);
-//        makePlacement("a000");
+
+        makeControls();
         makeBoard();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 }
