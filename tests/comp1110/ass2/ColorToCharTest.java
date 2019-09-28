@@ -27,7 +27,7 @@ public class ColorToCharTest {
 
     @Test
     public void testBlue() {
-        test(Color.BLUE, 'B');
+        test(Color.BLUE, 'N');
     }
 
     @Test
