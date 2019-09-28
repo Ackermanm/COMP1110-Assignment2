@@ -18,10 +18,10 @@ public class PlacementToRotationTest {
 
     @Test
     public void test_a() {
-        test("a000", Rotation.ZERO);
-        test("a001", Rotation.ONE);
-        test("a002", Rotation.TWO);
-        test("a003", Rotation.THREE);
+        test("a130", Rotation.ZERO);
+        test("a011", Rotation.ONE);
+        test("a322", Rotation.TWO);
+        test("a103", Rotation.THREE);
     }
     @Test
     public void test_b() {

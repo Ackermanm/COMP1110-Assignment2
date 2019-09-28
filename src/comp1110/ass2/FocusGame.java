@@ -1,10 +1,16 @@
 package comp1110.ass2;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+
 import comp1110.ass2.Color.*;
 import comp1110.ass2.Piece.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static comp1110.ass2.Color.FATHER;
 import static comp1110.ass2.Color.NONE;
 
 /**
@@ -14,6 +20,15 @@ import static comp1110.ass2.Color.NONE;
  * (https://www.smartgames.eu/uk/one-player-games/iq-focus)
  */
 public class FocusGame {
+
+    private static final Color[][] BLANK_BOARD_STATE = {
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+
+    };
 
     private Color[][] boardstates = {
             {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
@@ -368,8 +383,93 @@ public class FocusGame {
      * @return A placement string describing a canonical encoding of the solution to
      * the challenge.
      */
-    public static String getSolution(String challenge) {
-        // FIXME Task 9: determine the solution to the game, given a particular challenge
-        return null;
+    public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
+        Color[][] state = BLANK_BOARD_STATE;
+        String solution = stateRecursion(state, "", challenge, 0, 0);
+        /*Set<String> startSet = getViablePiecePlacements("", challenge, 0, 0);
+        int size = startSet.size();
+        for (int i = 0; i < size; i++) {
+            Color[][] boardstates = updateBoardstates(BLANK_BOARD_STATE, (String)startSet.toArray()[i]);
+            solution += startSet.toArray()[i];
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    if (boardstates[x][y] != null && boardstates[x][y] != FATHER) {
+                        Set<String> recursionSet = getViablePiecePlacements(solution, challenge, x, y);
+                        if (recursionSet != null) {
+
+                        }
+                    }
+                }
+            }
+        }*/
+        return solution;
+    }
+
+    public static Boolean isBlank(Color[][] boardstates, int x, int y) { // determine whether a position have color or not
+        if (boardstates[y][x] == Color.NONE)
+            return true;
+        else
+            return false;
+    }
+
+    public static int nextX(int x, int y) {
+        int result = 0;
+        if (x < 8) {
+            result = x + 1;
+        } else {
+            result = 0;
+        }
+        return result;
+    }
+
+    public static int nextY(int x, int y) {
+        int result = 0;
+        if (x < 8) {
+            result = y;
+        } else {
+            result = y + 1;
+        }
+        return result;
+    }
+
+    @Test
+    public void testIsNextBlank() {  // test the state of next position
+        Color[][] testboardstates = {
+                {Color.NONE,Color.RED,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.BLUE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.NONE,Color.NONE,Color.NONE,Color.WHITE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
+                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+
+        };
+        assertTrue(isBlank(testboardstates, nextX(0, 0), nextY(0, 0)) == false);
+        assertTrue(isBlank(testboardstates, nextX(1, 0), nextY(1, 0)) == true);
+        assertTrue(isBlank(testboardstates, nextX(4, 1), nextY(4, 1)) == false);
+        assertTrue(isBlank(testboardstates, nextX(8, 3), nextY(8, 3)) == false);
+        assertTrue(isBlank(testboardstates, nextX(3, 3), nextY(3, 3)) == true);
+    }
+
+    public static String stateRecursion(Color[][] boardstates, String state, String challenge, int x, int y) {
+        boardstates = updateBoardstates(state);
+        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
+        int size = set.size();
+        for (int i = 0; i < size; i++) {
+            state += (String)set.toArray()[i];
+            boardstates = updateBoardstates(state);
+            if (isBlank(boardstates, nextX(x, y), nextY(x, y))) {
+                if (getViablePiecePlacements(state, challenge, nextX(x, y), nextY(x, y)) != null) {
+                    set = getViablePiecePlacements(state, challenge, nextX(x, y), nextY(x, y));
+                    state = stateRecursion(boardstates, state, challenge, nextX(x, y), nextY(x, y));
+                }
+            }
+        }
+        return state;
+    }
+
+
+
+    public static void main(String[] args) {
+        Set<String> set = getViablePiecePlacements("a000e300d501i702b011f213", "RRRBWBBRB", 4, 2);
+        System.out.println(set);
     }
 }

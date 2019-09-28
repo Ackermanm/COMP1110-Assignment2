@@ -196,4 +196,3 @@ public enum PieceType {
         return rithtCornerLoation;
     }
 }
-
