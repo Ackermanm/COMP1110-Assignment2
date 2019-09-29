@@ -384,8 +384,16 @@ public class FocusGame {
      * the challenge.
      */
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
-        Color[][] state = BLANK_BOARD_STATE;
-        String resolution = "";
+        String state = "";
+        String next = "";
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (isBlank(updateBoardstates(state), x, y)) {
+                    next = nextPlacement(state, challenge, x, y);
+                    state += next;
+                }
+            }
+        }
         /*Set<String> startSet = getViablePiecePlacements("", challenge, 0, 0);
         int size = startSet.size();
         for (int i = 0; i < size; i++) {
@@ -403,7 +411,7 @@ public class FocusGame {
             }
         }*/
 
-        return (resolution.length() == 40) ? resolution : resolution + nextPlacement(resolution, challenge);
+        return state;
     }
 
     public static Boolean isBlank(Color[][] boardstates, int x, int y) { // determine whether a position have color or not
@@ -453,6 +461,13 @@ public class FocusGame {
     public static int[] nextBlank(String state, String challenge, int x, int y) {
         Color[][] boardstates = updateBoardstates(state);
         int[] result = new int[2];
+        while (!isBlank(boardstates, x, y)) {
+            int temp = x;
+            x = nextX(temp, y);
+            y = nextY(temp, y);
+        }
+        result[0] = x;
+        result[1] = y;
         return result;
     }
 
@@ -465,10 +480,8 @@ public class FocusGame {
         return false;
     }
 
-    public static String nextPlacement(String state, String challenge) {
+    public static String nextPlacement(String state, String challenge, int x, int y) {
         int length = state.length();
-        int x = state.charAt(length-3);
-        int y = state.charAt(length-2);
         String next = "";
         Color[][] boardstates = updateBoardstates(state);
         Set<String> set = getViablePiecePlacements(state, challenge, x, y);
@@ -477,8 +490,16 @@ public class FocusGame {
             for (int i = 0; i < size; i++) {
                 next = (String)set.toArray()[i];
                 state += next;
+                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state, challenge, x, y)[0], nextBlank(state, challenge, x, y)[1]);
+                if (set1 == null) {
+                    state = state.substring(0, state.length()-4);
+                } else {
+                    break;
+                }
             }
         }
+        /*if (state.length() < 13) return next + nextPlacement(state, challenge);
+        else return next;*/
         return next;
     }
 
@@ -494,8 +515,11 @@ public class FocusGame {
         }  while (!isBlank(boardstates, nextX(x, y), nextY(x, y)));
         System.out.println(x);
         System.out.println(y);
-        Set<String> set1 = getViablePiecePlacements("e003f100", "RRRRRRRRR", 4, 0);
+        Set<String> set1 = getViablePiecePlacements("e003", "RRRRRRRRR", 1, 0);
         System.out.println(set1);
-
+        String t = nextPlacement("e003", "RRRRRRRRR", 1, 0);
+        System.out.println(t);
+        String sd = nextPlacement("", "RRRRRRRRR", 0, 0);
+        System.out.println(sd);
     }
 }
