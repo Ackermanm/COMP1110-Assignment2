@@ -32,7 +32,7 @@ comments:
   Although each part of the examples of test contains all possibilities of the third character, for
   the other characters in the input string it also has other possibilities which weren't been written.
   As an example, the placement "a010" was not listed. So the test can only test a part of the whole
-  example but not all.
+  example but not all the possibilities.
 
 
 
