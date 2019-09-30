@@ -17,7 +17,7 @@ public class TestViablePlacement {
     * @param challenge A challenge string which is an objective.
     * @param expected The method return boolean
     *
-    * @Return Trun if the placement string is consistent with challenge.
+    * @Return True if the placement string is consistent with challenge.
     */
     public void test(String challenge, String placement, boolean expected){
         Color[][] withChallenge = FocusGame.newBoardWithChallenge(challenge);
