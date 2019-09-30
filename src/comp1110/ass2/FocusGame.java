@@ -281,6 +281,19 @@ public class FocusGame {
         }
         return true;
     }
+    public static boolean placeConsistentWithChallenge(String challenge, String placement){
+        Color[][] withChallenge = newBoardWithChallenge(challenge);
+        Color[][] noChallenge = updateBoardstates(placement);
+        for (int i =1; i<4; i++){
+            for (int j = 3; j<6; j++){
+                if (noChallenge[i][j]!=NONE){
+                    if (noChallenge[i][j]!=withChallenge[i][j])
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * Given a string describing a placement of pieces and a string describing
@@ -334,7 +347,7 @@ public class FocusGame {
                                 Color[][] pieceStringBoardstates = updateBoardstates(pieceString);
                                 if (placeConsistentWithChallenge(challengeBoardstates, boardstates)
                                         && isPlacementStringValid(boardstates, pieceString)
-                                        && placeConsistentWithChallenge(challengeBoardstates, pieceStringBoardstates)
+                                        && placeConsistentWithChallenge(challenge, pieceString)
                                 ) {
                                     Color[][] putPieceString = updateBoardstates(boardstates, pieceString);
                                     if (putPieceString[row][col] != NONE) {
