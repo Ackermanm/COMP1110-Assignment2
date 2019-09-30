@@ -130,7 +130,7 @@ public class Board extends Application {
         board.toBack();
     }
 
-    
+    // FIXME Task 7: Implement a basic playable Focus Game in JavaFX that only allows pieces to be placed in valid places
     class DraggablePiece extends ShowPiece{
         char piece;
         int originX,originY;
