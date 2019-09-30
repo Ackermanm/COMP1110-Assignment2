@@ -296,6 +296,19 @@ public class FocusGame {
         }
         return true;
     }
+    public static boolean placeConsistentWithChallenge(String challenge, String placement){
+        Color[][] withChallenge = newBoardWithChallenge(challenge);
+        Color[][] noChallenge = updateBoardstates(placement);
+        for (int i =1; i<4; i++){
+            for (int j = 3; j<6; j++){
+                if (noChallenge[i][j]!=NONE){
+                    if (noChallenge[i][j]!=withChallenge[i][j])
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * Given a string describing a placement of pieces and a string describing
@@ -349,7 +362,7 @@ public class FocusGame {
                                 Color[][] pieceStringBoardstates = updateBoardstates(pieceString);
                                 if (placeConsistentWithChallenge(challengeBoardstates, boardstates)
                                         && isPlacementStringValid(boardstates, pieceString)
-                                        && placeConsistentWithChallenge(challengeBoardstates, pieceStringBoardstates)
+                                        && placeConsistentWithChallenge(challenge, pieceString)
                                 ) {
                                     Color[][] putPieceString = updateBoardstates(boardstates, pieceString);
                                     if (putPieceString[row][col] != NONE) {
@@ -384,8 +397,16 @@ public class FocusGame {
      * the challenge.
      */
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
-        Color[][] state = BLANK_BOARD_STATE;
-        String solution = stateRecursion(state, "", challenge, 0, 0);
+        String state = "";
+        String next = "";
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (isBlank(updateBoardstates(state), x, y)) {
+                    next = nextPlacement(state, challenge, x, y);
+                    state += next;
+                }
+            }
+        }
         /*Set<String> startSet = getViablePiecePlacements("", challenge, 0, 0);
         int size = startSet.size();
         for (int i = 0; i < size; i++) {
@@ -402,7 +423,8 @@ public class FocusGame {
                 }
             }
         }*/
-        return solution;
+
+        return state;
     }
 
     public static Boolean isBlank(Color[][] boardstates, int x, int y) { // determine whether a position have color or not
@@ -449,27 +471,68 @@ public class FocusGame {
         assertTrue(isBlank(testboardstates, nextX(3, 3), nextY(3, 3)) == true);
     }
 
-    public static String stateRecursion(Color[][] boardstates, String state, String challenge, int x, int y) {
-        boardstates = updateBoardstates(state);
+    public static int[] nextBlank(String state, String challenge, int x, int y) {
+        Color[][] boardstates = updateBoardstates(state);
+        int[] result = new int[2];
+        while (!isBlank(boardstates, x, y)) {
+            int temp = x;
+            x = nextX(temp, y);
+            y = nextY(temp, y);
+        }
+        result[0] = x;
+        result[1] = y;
+        return result;
+    }
+
+    /*public static String changeLastPlace() {
+        return null;
+    }*/
+
+    public static boolean isNextBlankHasSet(String currentState, String next, String challenge, int currentX, int currentY) {
+
+        return false;
+    }
+
+    public static String nextPlacement(String state, String challenge, int x, int y) {
+        int length = state.length();
+        String next = "";
+        Color[][] boardstates = updateBoardstates(state);
         Set<String> set = getViablePiecePlacements(state, challenge, x, y);
-        int size = set.size();
-        for (int i = 0; i < size; i++) {
-            state += (String)set.toArray()[i];
-            boardstates = updateBoardstates(state);
-            if (isBlank(boardstates, nextX(x, y), nextY(x, y))) {
-                if (getViablePiecePlacements(state, challenge, nextX(x, y), nextY(x, y)) != null) {
-                    set = getViablePiecePlacements(state, challenge, nextX(x, y), nextY(x, y));
-                    state = stateRecursion(boardstates, state, challenge, nextX(x, y), nextY(x, y));
+        if (set != null) {
+            int size = set.size();
+            for (int i = 0; i < size; i++) {
+                next = (String)set.toArray()[i];
+                state += next;
+                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state, challenge, x, y)[0], nextBlank(state, challenge, x, y)[1]);
+                if (set1 == null) {
+                    state = state.substring(0, state.length()-4);
+                } else {
+                    break;
                 }
             }
         }
-        return state;
+        /*if (state.length() < 13) return next + nextPlacement(state, challenge);
+        else return next;*/
+        return next;
     }
 
-
-
     public static void main(String[] args) {
-        Set<String> set = getViablePiecePlacements("a000e300d501i702b011f213", "RRRBWBBRB", 4, 2);
-        System.out.println(set);
+        Color[][] boardstates = BLANK_BOARD_STATE;
+        boardstates = updateBoardstates("e003");
+        int x = 0;
+        int y = 0;
+        do {
+            int temp = x;
+            x = nextX(temp, y);
+            y = nextY(temp, y);
+        }  while (!isBlank(boardstates, nextX(x, y), nextY(x, y)));
+        System.out.println(x);
+        System.out.println(y);
+        Set<String> set1 = getViablePiecePlacements("e003", "RRRRRRRRR", 1, 0);
+        System.out.println(set1);
+        String t = nextPlacement("e003", "RRRRRRRRR", 1, 0);
+        System.out.println(t);
+        String sd = nextPlacement("", "RRRRRRRRR", 0, 0);
+        System.out.println(sd);
     }
 }
