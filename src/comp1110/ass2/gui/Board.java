@@ -94,7 +94,6 @@ public class Board extends Application {
             setOnScroll(event -> {            // scroll to change orientation
                 if (System.currentTimeMillis() - lastRotationTime > ROTATION_THRESHOLD){
                     lastRotationTime = System.currentTimeMillis();
-                    hideCompletion(); // dont know what it is
                     rotate();
                     event.consume();
                     checkCompletion();

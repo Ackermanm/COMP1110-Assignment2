@@ -66,10 +66,36 @@ public class Viewer extends Application {
     private TextField textField;
 
     private static DropShadow dropShadow;
-
+    Image[] images = new Image[4];
     /* Graphical representations of pieces */
     class ShowPiece extends ImageView {
         char pieceID;
+        ShowPiece(char piece){
+            /*if (piece < 'a' || piece > 'j') {
+                throw new IllegalArgumentException("Invalid piece: " + piece);
+            }
+            this.pieceID = piece;
+
+            for (int rotation = 0; rotation < 4; rotation++){
+                char rot = (char)(rotation+'0');
+                int height = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rot)).getX();
+                int width = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rot)).getY();
+                if (rotation == '1' || rotation == '3'){
+                    setFitHeight(width * SQUARE_SIZE);
+                    setFitWidth(height * SQUARE_SIZE);
+                }
+                else {
+                    setFitHeight(height * SQUARE_SIZE);
+                    setFitWidth(width * SQUARE_SIZE);
+                }
+                this.setRotate((rotation-'0')*90);
+                images[rotation] = new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString());
+            }*/
+        }
+
+
+
+
         ShowPiece(char piece, char rotation) {
             if (piece < 'a' || piece > 'j') {
                 throw new IllegalArgumentException("Invalid piece: " + piece);
@@ -77,10 +103,19 @@ public class Viewer extends Application {
             this.pieceID = piece;
             int height = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rotation)).getX();
             int width = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rotation)).getY();
-            setFitHeight(height * SQUARE_SIZE);
-            setFitWidth(width * SQUARE_SIZE);
-            this.setImage(new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString()));
-            this.setRotate((rotation-'0')*90);
+            if (rotation == '1' || rotation == '3'){
+                setFitHeight(width * SQUARE_SIZE);
+                setFitWidth(height * SQUARE_SIZE);
+            }
+            else {
+                setFitHeight(height * SQUARE_SIZE);
+                setFitWidth(width * SQUARE_SIZE);
+            }
+            for (int i = 0; i < 4; i++){
+                this.setRotate((i-'0')*90);
+                images[i] = new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString());
+            }
+
             this.setEffect(dropShadow);
         }
     }
@@ -184,7 +219,7 @@ public class Viewer extends Application {
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 //        root.getChildren().add(controls);
 //        makeControls();
-        makePlacement("h420j000a400");
+        makePlacement("a001");
         root.getChildren().add(board);
         root.getChildren().add(placement);
 //        makePlacement("a000");
