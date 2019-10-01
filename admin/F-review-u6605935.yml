@@ -17,21 +17,20 @@ component: isPlacementStringWellFormed
 # Write a list of review comments here.
 #
 comments:
-  -
-    First of all, the thing that is well done by the author is that he classified all of the
-  entire conditions in this task and possibilities appropriately. For example, the state of
-  the placement is correctly divided into three conditions, including "null", "the remainder
-  divided by 4 equals to 0" and "the i*th character of the placement listed before is equal
-  to the j*th character of the placement, which is the same placement as the placement declared
-  before the method. The clearly division helps to finish this task much more conveniently and
-  effectively.
-    I think that the codes are totally well-documented in java class and the basic structure of
-  this class and method is correctly typed.
-    The method is named in "isPlacementStringWellFormed". The name is proper and it also matches
-  the name of this class, so there will not be any error declared in the terminal when we try to
-  run this method. The varialble in this method is called "placement" and the name of it is never
-  changed during the whole period of the method.
-    As the method written by the author has passed all the test that required to pass, no bugs and
-  error are concluded in this method. But I think that one thing could still be improved, which is
-  that the word "i = i + 4" could be simplified into "i += 4". "i = i + 4" is also correct of course,
-  but I think more simple declaration leads to less time of running the program.
+  -  First of all, the thing that is well done by the author is that he classified all of the
+  - entire conditions in this task and possibilities appropriately. For example, the state of
+  - the placement is correctly divided into three conditions, including "null", "the remainder
+  - divided by 4 equals to 0" and "the i*th character of the placement listed before is equal
+  - to the j*th character of the placement, which is the same placement as the placement declared
+  - before the method. The clearly division helps to finish this task much more conveniently and
+  - effectively.
+  -  I think that the codes are totally well-documented in java class and the basic structure of
+  - this class and method is correctly typed.
+  - The method is named in "isPlacementStringWellFormed". The name is proper and it also matches
+  -the name of this class, so there will not be any error declared in the terminal when we try to
+  -run this method. The varialble in this method is called "placement" and the name of it is never
+  -changed during the whole period of the method.
+  -  As the method written by the author has passed all the test that required to pass, no bugs and
+  -error are concluded in this method. But I think that one thing could still be improved, which is
+  -that the word "i = i + 4" could be simplified into "i += 4". "i = i + 4" is also correct of course,
+  -but I think more simple declaration leads to less time of running the program.
