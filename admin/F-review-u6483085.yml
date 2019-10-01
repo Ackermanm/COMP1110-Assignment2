@@ -17,7 +17,6 @@ component: PlacementToRotationTest
 # Write a list of review comments here.
 #
 comments:
-  -
   -  The test's basic structure is right. As an example, it contains the @Rule part to determine
   - the condition of the code passes the test, which is that the output equals to the expected value.
   - In the second part of the test, it listed some conditions that fit for the requirments of passing
