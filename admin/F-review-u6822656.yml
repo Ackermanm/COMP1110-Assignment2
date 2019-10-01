@@ -17,6 +17,7 @@ component: getViablePiecePlacements
 # Write a list of review comments here.
 #
 comments:
+  -
     I think the best features of this code is that it use the if statement clearly and correctly.
   The whole class was divided into two main conditions, which are "the 'notPlacedPieceType' is
   not null and is not empty" and the size of the set that declared before is 0, which means that

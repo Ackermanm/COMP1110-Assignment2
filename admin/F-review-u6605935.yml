@@ -17,6 +17,7 @@ component: isPlacementStringWellFormed
 # Write a list of review comments here.
 #
 comments:
+  -
     First of all, the thing that is well done by the author is that he classified all of the
   entire conditions in this task and possibilities appropriately. For example, the state of
   the placement is correctly divided into three conditions, including "null", "the remainder
