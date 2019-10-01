@@ -74,26 +74,7 @@ public class Board extends Application {
     class ShowPiece extends ImageView {
         Image[] images = new Image[4];
         ShowPiece(char piece){
-            /*if (piece < 'a' || piece > 'j') {
-                throw new IllegalArgumentException("Invalid piece: " + piece);
-            }
 
-            for (int rotation = 0; rotation < 4; rotation++){
-                char rot = (char)(rotation+'0');
-                int height = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rot)).getX();
-                int width = pieceToPieceType(piece).getLengthAndHeight(charToRotation(rot)).getY();
-                if (rotation == 1 || rotation == 3){
-                    setFitHeight(width * SQUARE_SIZE);
-                    setFitWidth(height * SQUARE_SIZE);
-                }
-                else {
-                    setFitHeight(height * SQUARE_SIZE);
-                    setFitWidth(width * SQUARE_SIZE);
-                }
-
-                setRotate((rotation)*90);
-                images[rotation] = new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString());
-            }*/
         }
         ShowPiece(char piece, char rotation) {
             if (piece < 'a' || piece > 'j') {
