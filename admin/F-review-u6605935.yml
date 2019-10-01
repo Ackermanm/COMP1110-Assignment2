@@ -33,4 +33,4 @@ comments:
     As the method written by the author has passed all the test that required to pass, no bugs and
   error are concluded in this method. But I think that one thing could still be improved, which is
   that the word "i = i + 4" could be simplified into "i += 4". "i = i + 4" is also correct of course,
-  but I think more simple declaration leads to less time of running the program. 
+  but I think more simple declaration leads to less time of running the program.

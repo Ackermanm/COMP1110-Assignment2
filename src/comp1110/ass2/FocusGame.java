@@ -399,14 +399,29 @@ public class FocusGame {
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
         String state = "";
         String next = "";
-        for (int y = 0; y < 5; y++) {
+        /*for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 9; x++) {
                 if (isBlank(updateBoardstates(state), x, y)) {
                     next = nextPlacement(state, challenge, x, y);
                     state += next;
                 }
+                if (x == 8 && y == 4 && state.length() != 40) {
+
+                }
             }
-        }
+        }*/
+        /*for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (isBlank(updateBoardstates(state), x, y)) {
+                    *//*next = nextPlacement(state, challenge, x, y);*//*
+                    state = conditionSolution(state, challenge, x, y);
+                }
+                if (x == 8 && y == 4 && state.length() != 40) {
+
+                }
+            }
+        }*/
+        state = conditionSolution("", challenge, 0, 0);
 
         return state;
     }
@@ -472,9 +487,33 @@ public class FocusGame {
         return null;
     }*/
 
-    public static boolean isNextBlankHasSet(String currentState, String next, String challenge, int currentX, int currentY) {
+    /*public static boolean isNextBlankHasSet(String currentState, String next, String challenge, int currentX, int currentY) {
 
         return false;
+    }*/
+
+    public static String finalNext(String state, String challenge, int x, int y) {
+        String cSolution = conditionSolution(state, challenge, x, y);
+        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
+        String fnext = "";
+        if (cSolution.length() != 40) {
+
+        }
+        return fnext;
+    }
+
+    public static String conditionSolution(String state, String challenge, int x, int y) {
+        String next = "";
+        for (int j = y; j < 5; y++) {
+            for (int i = x; i < 9; x++) {
+                if (isBlank(updateBoardstates(state), i, j)) {
+                    next = nextPlacement(state, challenge, i, j);
+                    state += next;
+                }
+            }
+        }
+
+        return state;
     }
 
     public static String nextPlacement(String state, String challenge, int x, int y) {
