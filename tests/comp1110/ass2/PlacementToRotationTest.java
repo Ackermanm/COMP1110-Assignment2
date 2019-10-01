@@ -19,7 +19,7 @@ public class PlacementToRotationTest {
     @Test
     public void test_a() {
         test("a130", Rotation.ZERO);
-        test("a011", Rotation.ONE);
+        test("a001", Rotation.ONE);
         test("a322", Rotation.TWO);
         test("a103", Rotation.THREE);
     }
@@ -86,7 +86,6 @@ public class PlacementToRotationTest {
         test("j312", Rotation.TWO);
         test("j213", Rotation.THREE);
     }
-
 
     private Rotation getRotation(char x) {
         if (x == '0') {

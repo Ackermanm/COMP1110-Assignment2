@@ -407,22 +407,6 @@ public class FocusGame {
                 }
             }
         }
-        /*Set<String> startSet = getViablePiecePlacements("", challenge, 0, 0);
-        int size = startSet.size();
-        for (int i = 0; i < size; i++) {
-            Color[][] boardstates = updateBoardstates(BLANK_BOARD_STATE, (String)startSet.toArray()[i]);
-            solution += startSet.toArray()[i];
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    if (boardstates[x][y] != null && boardstates[x][y] != FATHER) {
-                        Set<String> recursionSet = getViablePiecePlacements(solution, challenge, x, y);
-                        if (recursionSet != null) {
-
-                        }
-                    }
-                }
-            }
-        }*/
 
         return state;
     }
@@ -511,8 +495,6 @@ public class FocusGame {
                 }
             }
         }
-        /*if (state.length() < 13) return next + nextPlacement(state, challenge);
-        else return next;*/
         return next;
     }
 
