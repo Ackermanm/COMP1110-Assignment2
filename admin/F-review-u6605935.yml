@@ -1,0 +1,20 @@
+# Write your name and UID here.
+#
+reviewer: Yafei Liu
+    name: Yafei Liu
+    uid: u6605935
+
+# Write the name of the author of the code here.
+#
+author: Xing Meng
+  name: Xing Meng
+  uid: u6483085
+
+# Write the class or method being reviewed here.
+#
+component: isPlacementStringWellFormed
+
+# Write a list of review comments here.
+#
+comments:
+    First of all,

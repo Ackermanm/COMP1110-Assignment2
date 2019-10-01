@@ -1,38 +1,43 @@
 # Write your name and UID here.
 #
-reviewer: Xing Meng
-    name: Xing Meng
-    uid: u6483085
+reviewer: Bowen Tan
+    name: Bowen Tan
+    uid: u6822656
 
 # Write the name of the author of the code here.
 #
-author: Bowen Tan
-  name: Bowen Tan
-  uid: u6822656
+author: Yafei Liu
+  name: Yafei Liu
+  uid: u6605935
 
 # Write the class or method being reviewed here.
 #
-component: PlacementToRotationTest
+component: getViablePiecePlacements
 
 # Write a list of review comments here.
 #
 comments:
-    The test's basic structure is right. As an example, it contains the @Rule part to determine
-  the condition of the code passes the test, which is that the output equals to the expected value.
-  In the second part of the test, it listed some conditions that fit for the requirments of passing
-  the test and the conditions were classified to 11 parts, each part starts with different letter
-  from a to j.
-    The codes are well-documented in java class and the basic structure of this class and method
-  is right.
-    The method is named in "PlacementToRotationTest" and matches the name of this class. The only
-  variable of in this method is called "out", which is the third character of the input string.
-  Through the whole program, this variable is used throughout and the name was never changed through
-  the class.
-    However, this test only contains a part of all examples of the strings of the entire placements.
-  Although each part of the examples of test contains all possibilities of the third character, for
-  the other characters in the input string it also has other possibilities which weren't been written.
-  As an example, the placement "a010" was not listed. So the test can only test a part of the whole
-  example but not all the possibilities.
+    I think the best features of this code is that it use the if statement clearly and correctly.
+  The whole class was divided into two main conditions, which are "the 'notPlacedPieceType' is
+  not null and is not empty" and the size of the set that declared before is 0, which means that
+  the set is empty and contains nothing. In the first condition, it is also classified to two
+  small conditions including "tempCol is greater or equal to 0 and tempRow is also greater or
+  equal to 0" and " the 'putPieceString' is empty". In conclusion, the process of classfing all
+  the different conditions is well done.
+    As far as I concern, all of the codes in this method are well-documented in java class type
+  and the basic structure of this class and method is correctly written. Which was a good work
+  done by the author.
+    The name of this method is named as getViablePiecePlacements, which is same as the name of
+  this java class. Many variables are contained in this method, ranging from "notPlacedPieceType"
+  in string type to "tempCol" and "tempRow" in integer type. All of the varaibles declared in the
+  method were used correctly and properly, the names have never been changed in the whole part of
+  the method.
+    About the bug and the error of this class, as it has passed the test which has been provided
+  by the lecturer, I do not think it contains any error or bug need to be fixed. The only thing
+  that may able to be improved is the complexity of the codes.
+
+
+
 
 
 
