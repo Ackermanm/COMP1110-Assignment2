@@ -17,21 +17,21 @@ component: getViablePiecePlacements
 # Write a list of review comments here.
 #
 comments:
-  -I think the best features of this code is that it use the if statement clearly and correctly.
-  The whole class was divided into two main conditions, which are "the 'notPlacedPieceType' is
-  not null and is not empty" and the size of the set that declared before is 0, which means that
-  the set is empty and contains nothing. In the first condition, it is also classified to two
-  small conditions including "tempCol is greater or equal to 0 and tempRow is also greater or
-  equal to 0" and " the 'putPieceString' is empty". In conclusion, the process of classfing all
-  the different conditions is well done.
-    As far as I concern, all of the codes in this method are well-documented in java class type
-  and the basic structure of this class and method is correctly written. Which was a good work
-  done by the author.
-    The name of this method is named as getViablePiecePlacements, which is same as the name of
-  this java class. Many variables are contained in this method, ranging from "notPlacedPieceType"
-  in string type to "tempCol" and "tempRow" in integer type. All of the varaibles declared in the
-  method were used correctly and properly, the names have never been changed in the whole part of
-  the method.
-    About the bug and the error of this class, as it has passed the test which has been provided
-  by the lecturer, I do not think it contains any error or bug need to be fixed. The only thing
-  that may able to be improved is the complexity of the codes.
+  -  I think the best features of this code is that it use the if statement clearly and correctly.
+  - The whole class was divided into two main conditions, which are "the 'notPlacedPieceType' is
+  - not null and is not empty" and the size of the set that declared before is 0, which means that
+  - the set is empty and contains nothing. In the first condition, it is also classified to two
+  - small conditions including "tempCol is greater or equal to 0 and tempRow is also greater or
+  - equal to 0" and " the 'putPieceString' is empty". In conclusion, the process of classfing all
+  - the different conditions is well done.
+  -   As far as I concern, all of the codes in this method are well-documented in java class type
+  - and the basic structure of this class and method is correctly written. Which was a good work
+  - done by the author.
+  -   The name of this method is named as getViablePiecePlacements, which is same as the name of
+  - this java class. Many variables are contained in this method, ranging from "notPlacedPieceType"
+  - in string type to "tempCol" and "tempRow" in integer type. All of the varaibles declared in the
+  - method were used correctly and properly, the names have never been changed in the whole part of
+  - the method.
+  -   About the bug and the error of this class, as it has passed the test which has been provided
+  - by the lecturer, I do not think it contains any error or bug need to be fixed. The only thing
+  - that may able to be improved is the complexity of the codes.

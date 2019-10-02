@@ -17,23 +17,22 @@ component: PlacementToRotationTest
 # Write a list of review comments here.
 #
 comments:
-  -
-    The test's basic structure is right. As an example, it contains the @Rule part to determine
-  the condition of the code passes the test, which is that the output equals to the expected value.
-  In the second part of the test, it listed some conditions that fit for the requirments of passing
-  the test and the conditions were classified to 11 parts, each part starts with different letter
-  from a to j.
-    The codes are well-documented in java class and the basic structure of this class and method
-  is right.
-    The method is named in "PlacementToRotationTest" and matches the name of this class. The only
-  variable of in this method is called "out", which is the third character of the input string.
-  Through the whole program, this variable is used throughout and the name was never changed through
-  the class.
-    However, this test only contains a part of all examples of the strings of the entire placements.
-  Although each part of the examples of test contains all possibilities of the third character, for
-  the other characters in the input string it also has other possibilities which weren't been written.
-  As an example, the placement "a010" was not listed. So the test can only test a part of the whole
-  example but not all the possibilities.
+  -  The test's basic structure is right. As an example, it contains the @Rule part to determine
+  - the condition of the code passes the test, which is that the output equals to the expected value.
+  - In the second part of the test, it listed some conditions that fit for the requirments of passing
+  - the test and the conditions were classified to 11 parts, each part starts with different letter
+  - from a to j.
+  -   The codes are well-documented in java class and the basic structure of this class and method
+  - is right.
+  -   The method is named in "PlacementToRotationTest" and matches the name of this class. The only
+  - variable of in this method is called "out", which is the third character of the input string.
+  - Through the whole program, this variable is used throughout and the name was never changed through
+  - the class.
+  -   However, this test only contains a part of all examples of the strings of the entire placements.
+  - Although each part of the examples of test contains all possibilities of the third character, for
+  - the other characters in the input string it also has other possibilities which weren't been written.
+  - As an example, the placement "a010" was not listed. So the test can only test a part of the whole
+  - example but not all the possibilities.
 
 
 
