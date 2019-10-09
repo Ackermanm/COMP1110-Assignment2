@@ -21,15 +21,6 @@ import static comp1110.ass2.Color.NONE;
  */
 public class FocusGame {
 
-    private static final Color[][] BLANK_BOARD_STATE = {
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
-
-    };
-
     private Color[][] boardstates = {
             {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
             {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
@@ -397,33 +388,93 @@ public class FocusGame {
      * the challenge.
      */
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
+
         String state = "";
-        String next = "";
-        /*for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 9; x++) {
-                if (isBlank(updateBoardstates(state), x, y)) {
-                    next = nextPlacement(state, challenge, x, y);
-                    state += next;
-                }
-                if (x == 8 && y == 4 && state.length() != 40) {
 
+        /*Set<String> set0 = getViablePiecePlacements("", challenge, 0, 0);
+        String state0 = "";
+        String state1 = "";
+        for (String s0 : set0) {
+            state0 = s0;
+            for (int j = 0; j < 5; j++) {
+                for (int i = 0; i < 9; i++) {
+                    if (isBlank(updateBoardstates(state0), i, j)) {
+                        Set<String> set1 = getViablePiecePlacements(state0, challenge, i, j);
+                        if (set1 != null) {
+                            for (String s1 : set1) {
+                                state1 = s1;
+                            }
+                        }
+                    }
                 }
             }
         }*/
-        /*for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 9; x++) {
-                if (isBlank(updateBoardstates(state), x, y)) {
-                    *//*next = nextPlacement(state, challenge, x, y);*//*
-                    state = conditionSolution(state, challenge, x, y);
-                }
-                if (x == 8 && y == 4 && state.length() != 40) {
-
+        /*int length = state.length();
+        if (length != 40) {
+            int x = Integer.parseInt(state.substring(length-7, length-6));
+            int y = Integer.parseInt(state.substring(length-6, length-5));
+            state = state.substring(0, length-4);
+            for (int j = y; j < 5; j++) {
+                for (int i = x; i < 9; i++) {
+                    if (isBlank(updateBoardstates(state), i, j)) {
+                        Set<String> set = getViablePiecePlacements(state, challenge, i, j);
+                        state += (String)set.toArray()[0];
+                    }
                 }
             }
         }*/
-        state = conditionSolution("", challenge, 0, 0);
 
         return state;
+    }
+
+    public static String finalNext() {
+        return null;
+    }
+
+    public static String conditionSolution(String state, String challenge) {
+        String next = "";
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 9; i++) {
+                if (isBlank(updateBoardstates(state), i, j)) {
+                    next = nextPlacement(state, challenge, i, j);
+                    state += next;
+                    break;
+                }
+            }
+        }
+        return state;
+    }
+
+    public static String nextPlacement(String state, String challenge, int x, int y) {
+        String next = "";
+        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
+        if (set != null) {
+            int size = set.size();
+            for (int i = 0; i < size; i++) {
+                next = (String)set.toArray()[i];
+                state += next;
+                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state, challenge, x, y)[0], nextBlank(state, challenge, x, y)[1]);
+                if (set1 == null) {
+                    state = state.substring(0, state.length()-4);
+                } else {
+                    break;
+                }
+            }
+        }
+        return next;
+    }
+
+    public static int[] nextBlank(String state, String challenge, int x, int y) {
+        Color[][] boardstates = updateBoardstates(state);
+        int[] result = new int[2];
+        while (!isBlank(boardstates, x, y)) {
+            int temp = x;
+            x = nextX(temp, y);
+            y = nextY(temp, y);
+        }
+        result[0] = x;
+        result[1] = y;
+        return result;
     }
 
     public static Boolean isBlank(Color[][] boardstates, int x, int y) { // determine whether a position have color or not
@@ -453,107 +504,33 @@ public class FocusGame {
         return result;
     }
 
-    @Test
-    public void testIsNextBlank() {  // test the state of next position
-        Color[][] testboardstates = {
-                {Color.NONE,Color.RED,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.BLUE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.WHITE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
-
-        };
-        assertTrue(isBlank(testboardstates, nextX(0, 0), nextY(0, 0)) == false);
-        assertTrue(isBlank(testboardstates, nextX(1, 0), nextY(1, 0)) == true);
-        assertTrue(isBlank(testboardstates, nextX(4, 1), nextY(4, 1)) == false);
-        assertTrue(isBlank(testboardstates, nextX(8, 3), nextY(8, 3)) == false);
-        assertTrue(isBlank(testboardstates, nextX(3, 3), nextY(3, 3)) == true);
-    }
-
-    public static int[] nextBlank(String state, String challenge, int x, int y) {
-        Color[][] boardstates = updateBoardstates(state);
-        int[] result = new int[2];
-        while (!isBlank(boardstates, x, y)) {
-            int temp = x;
-            x = nextX(temp, y);
-            y = nextY(temp, y);
-        }
-        result[0] = x;
-        result[1] = y;
-        return result;
-    }
-
-    /*public static String changeLastPlace() {
-        return null;
-    }*/
-
-    /*public static boolean isNextBlankHasSet(String currentState, String next, String challenge, int currentX, int currentY) {
-
-        return false;
-    }*/
-
-    public static String finalNext(String state, String challenge, int x, int y) {
-        String cSolution = conditionSolution(state, challenge, x, y);
-        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
-        String fnext = "";
-        if (cSolution.length() != 40) {
-
-        }
-        return fnext;
-    }
-
-    public static String conditionSolution(String state, String challenge, int x, int y) {
-        String next = "";
-        for (int j = y; j < 5; y++) {
-            for (int i = x; i < 9; x++) {
-                if (isBlank(updateBoardstates(state), i, j)) {
-                    next = nextPlacement(state, challenge, i, j);
-                    state += next;
-                }
-            }
-        }
-
-        return state;
-    }
-
-    public static String nextPlacement(String state, String challenge, int x, int y) {
-        int length = state.length();
-        String next = "";
-        Color[][] boardstates = updateBoardstates(state);
-        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
-        if (set != null) {
-            int size = set.size();
-            for (int i = 0; i < size; i++) {
-                next = (String)set.toArray()[i];
-                state += next;
-                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state, challenge, x, y)[0], nextBlank(state, challenge, x, y)[1]);
-                if (set1 == null) {
-                    state = state.substring(0, state.length()-4);
-                } else {
-                    break;
-                }
-            }
-        }
-        return next;
-    }
-
     public static void main(String[] args) {
-        Color[][] boardstates = BLANK_BOARD_STATE;
-        boardstates = updateBoardstates("e003");
+        String state = conditionSolution("", "RRRRRRRRRR");
+        System.out.println(state);
+        int length = state.length();
+        System.out.println(length);
         int x = 0;
         int y = 0;
-        do {
-            int temp = x;
-            x = nextX(temp, y);
-            y = nextY(temp, y);
-        }  while (!isBlank(boardstates, nextX(x, y), nextY(x, y)));
-        System.out.println(x);
-        System.out.println(y);
-        Set<String> set1 = getViablePiecePlacements("e003", "RRRRRRRRR", 1, 0);
-        System.out.println(set1);
-        String t = nextPlacement("e003", "RRRRRRRRR", 1, 0);
-        System.out.println(t);
-        String sd = nextPlacement("", "RRRRRRRRR", 0, 0);
-        System.out.println(sd);
+        Set<String> cs = getViablePiecePlacements("e003f102d402h501a213i622", "RRRRRRRRRR", 0, 3);
+        System.out.println(cs);
+        if (length != 40) {
+            x = Integer.parseInt(state.substring(length-7, length-6));
+            System.out.println(x);
+            y = Integer.parseInt(state.substring(length-6, length-5));
+            System.out.println(y);
+            state = state.substring(0, length-4);
+            System.out.println(state);
+            for (int j = 0; j < 5; j++) {
+                for (int i = 0; i < 9; i++) {
+                    if (isBlank(updateBoardstates(state), i, j)) {
+                        Set<String> set = getViablePiecePlacements(state, "RRRRRRRRRR", i, j);
+                        System.out.println(set);
+                        if (set != null) {
+                            state += (String)set.toArray()[0];
+                        }
+                    }
+                }
+            }
+        }
     }
 }
