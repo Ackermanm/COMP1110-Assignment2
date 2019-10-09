@@ -21,15 +21,6 @@ import static comp1110.ass2.Color.NONE;
  */
 public class FocusGame {
 
-    private static final Color[][] BLANK_BOARD_STATE = {
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
-
-    };
-
     private Color[][] boardstates = {
             {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
             {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
@@ -397,7 +388,10 @@ public class FocusGame {
      * the challenge.
      */
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
-        Set<String> set0 = getViablePiecePlacements("", challenge, 0, 0);
+
+        String state = "";
+
+        /*Set<String> set0 = getViablePiecePlacements("", challenge, 0, 0);
         String state0 = "";
         String state1 = "";
         for (String s0 : set0) {
@@ -414,7 +408,7 @@ public class FocusGame {
                     }
                 }
             }
-        }
+        }*/
         /*int length = state.length();
         if (length != 40) {
             int x = Integer.parseInt(state.substring(length-7, length-6));
@@ -430,7 +424,7 @@ public class FocusGame {
             }
         }*/
 
-        return state0 + state1;
+        return state;
     }
 
     public static String finalNext() {
@@ -448,14 +442,11 @@ public class FocusGame {
                 }
             }
         }
-
         return state;
     }
 
     public static String nextPlacement(String state, String challenge, int x, int y) {
-        int length = state.length();
         String next = "";
-        Color[][] boardstates = updateBoardstates(state);
         Set<String> set = getViablePiecePlacements(state, challenge, x, y);
         if (set != null) {
             int size = set.size();
