@@ -4,11 +4,18 @@ import comp1110.ass2.FocusGame;
 import comp1110.ass2.PieceType;
 import comp1110.ass2.Rotation;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Board extends Application {
@@ -38,16 +45,18 @@ public class Board extends Application {
     private final Group board = new Group();
     private final Group pieces = new Group();
     private final Group challenge = new Group();
-
+    private final Group solution = new Group();
+    private final Group controls = new Group();
+    private final Slider level = new Slider();
 
     private static final int ROTATION_THRESHOLD = 50;
 
     String[] placement= new String[10];
     int[] pieceState = new int[10];
 
-    String solution = "a000b013c113d302e323f400g420h522i613j701";
+    String solutionString = "a000b013c113d302e323f400g420h522i613j701";
     String challengeString = "RRRBWBBRB";
-    Level lev = EXPERT;
+    Level lev = STARTER;
 
     public Board() {
         for (int i = 0; i < placement.length; i++){
@@ -128,7 +137,7 @@ public class Board extends Application {
     }
 
     // FIXME Task 7: Implement a basic playable Focus Game in JavaFX that only allows pieces to be placed in valid places
-    class DraggablePiece extends ShowPiece{
+    class DraggablePiece extends ImageView{
         char piece;
         int originX,originY;
         double mouseX, mouseY;
@@ -137,7 +146,6 @@ public class Board extends Application {
 
 
         DraggablePiece(char piece){
-            super(piece);
             this.piece = piece;
             Image image = new Image(Viewer.class.getResource(URI_BASE + piece + ".png").toString());
             setImage(image);
@@ -362,7 +370,6 @@ public class Board extends Application {
     public void challenges(String solution, String challenge, Level level){
         this.challenge.getChildren().clear();
         this.pieces.getChildren().clear();
-        this.challenge.getChildren().clear();
         ShowPiece[] show = new ShowPiece[challenge.length()];
         DraggablePiece[] draggablePieces = new DraggablePiece[10];
         for (int i = 0; i < challenge.length(); i++){
@@ -385,10 +392,80 @@ public class Board extends Application {
             String placement = solution.substring(i*4,i*4+4);
             draggablePieces[i].initialization(placement);
         }
-
     }
-    // FIXME Task 10: Implement hints
 
+//    public void makeControls(){
+//        Button button = new Button("Restart");
+//        button.setLayoutX(PLAY_AREA_X + SQUARE_SIZE);
+//        button.setLayoutY(VIEWER_HEIGHT - 100);
+//        button.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//                newGame();
+//            }
+//        });
+//        controls.getChildren().add(button);
+//
+//        level.setMin(1);
+//        level.setMax(4);
+//        level.setValue(0);
+//        level.setShowTickLabels(true);
+//        level.setShowTickMarks(true);
+//        level.setMajorTickUnit(1);
+//        level.setMinorTickCount(1);
+//        level.setSnapToTicks(true);
+//
+//        level.setLayoutX(BOARD_X + BOARD_MARGIN + 70);
+//        level.setLayoutY(GAME_HEIGHT - 50);
+//        controls.getChildren().add(level);
+//
+//        final Label difficultyCaption = new Label("Difficulty:");
+//        difficultyCaption.setTextFill(Color.GREY);
+//        difficultyCaption.setLayoutX(BOARD_X + BOARD_MARGIN);
+//        difficultyCaption.setLayoutY(GAME_HEIGHT - 50);
+//        controls.getChildren().add(difficultyCaption);
+//    }
+    // FIXME Task 10: Implement hints
+    private void solution(String solution) {
+        for (int i = 0; i < solution.length(); i += 4) {
+            ShowPiece showPiece = new ShowPiece(solution.charAt(i), solution.charAt(i + 3));
+            int x = solution.charAt(i + 1) - '0';
+            int y = solution.charAt(i + 2) - '0';
+            showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
+            showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
+            if (solution.charAt(i + 3) == '1' || solution.charAt(i + 3) == '3') {
+                if (solution.charAt(i) == 'a' || solution.charAt(i) == 'd' || solution.charAt(i) == 'e' || solution.charAt(i) == 'g') {
+                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
+                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
+                }
+                if (solution.charAt(i) == 'b' || solution.charAt(i) == 'c' || solution.charAt(i) == 'j' || solution.charAt(i) == 'f') {
+                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - SQUARE_SIZE);
+                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + SQUARE_SIZE);
+                }
+            }
+            this.solution.getChildren().add(showPiece);
+        }
+        this.solution.setOpacity(0);
+    }
+    private void hints(Scene scene){
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                solution.setOpacity(1.0);
+                solution.toFront();
+                pieces.setOpacity(0);
+                event.consume();
+            }
+        });
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                solution.setOpacity(0);
+                solution.toBack();
+                pieces.setOpacity(1.0);
+                pieces.toFront();
+                event.consume();
+            }
+        });
+    }
     // FIXME Task 11: Generate interesting challenges (each challenge may have just one solution)
 
     @Override
@@ -399,12 +476,12 @@ public class Board extends Application {
         root.getChildren().add(pieces);
         root.getChildren().add(board);
         root.getChildren().add(challenge);
-        challenges(solution, challengeString, lev);
-//        makePieces();
+        root.getChildren().add(solution);
+        challenges(solutionString, challengeString, lev);
+        hints(scene);
         makeBoard();
+        solution(solutionString);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-
 }
