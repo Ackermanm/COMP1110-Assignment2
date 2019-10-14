@@ -45,7 +45,7 @@ public class Board extends Application {
     private final Group board = new Group();
     private final Group pieces = new Group();
     private final Group challenge = new Group();
-    private final Group solution = new Group();
+    private final Group hints = new Group();
     private final Group controls = new Group();
     private final Slider level = new Slider();
 
@@ -63,6 +63,9 @@ public class Board extends Application {
             placement[i] = "";
             pieceState[i] = 0;
         }
+    }
+    public Board(int level){
+        level = 1;
     }
 
     public Rotation charToRotation(char rotation){
@@ -202,29 +205,38 @@ public class Board extends Application {
                             setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
                             setLayoutY(PLAY_AREA_Y + yLocation * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
                         }
-                        if (piece == 'b' || piece == 'c' || piece == 'j' || piece == 'f') {
+                        else if (piece == 'b' || piece == 'c' || piece == 'j' || piece == 'f') {
                             setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE - SQUARE_SIZE);
                             setLayoutY(PLAY_AREA_Y + yLocation * SQUARE_SIZE + SQUARE_SIZE);
+                        }
+                        else if (piece == 'h' || piece == 'i'){
+                            setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE);
+                            setLayoutY(PLAY_AREA_Y + yLocation * SQUARE_SIZE);
                         }
                     } else {
                         setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE);
                         setLayoutY(PLAY_AREA_Y + yLocation * SQUARE_SIZE);
                     }
                 }
-                else snapToOrigin();
+                else {
+                    snapToOrigin();
+                }
             }
             else {
                 snapToOrigin();
             }
+            toFront();
+            hints();
             checkCompletion();
         }
-        public void initialization(String placement){
+        public void initialization(String placementString){
+
             int[] layout = new int[2];
-            layout[0] = placement.charAt(1) - '0';
-            layout[1] = placement.charAt(2) - '0';
+            layout[0] = placementString.charAt(1) - '0';
+            layout[1] = placementString.charAt(2) - '0';
             int xLocation = layout[0];
             int yLocation = layout[1];
-            rotation = placement.charAt(3) - '0';
+            rotation = placementString.charAt(3) - '0';
                 if (boardIsPlacementValid(layout)) {
                     if (rotation == 1 || rotation == 3) {
                         if (piece == 'a' || piece == 'd' || piece == 'e' || piece == 'g') {
@@ -234,8 +246,6 @@ public class Board extends Application {
                         if (piece == 'b' || piece == 'c' || piece == 'j' || piece == 'f') {
                             setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE - SQUARE_SIZE);
                             setLayoutY(PLAY_AREA_Y + yLocation * SQUARE_SIZE + SQUARE_SIZE);
-                            double a = getLayoutX();
-                            double b = getLayoutY();
                         }
                     } else {
                         setLayoutX(PLAY_AREA_X + xLocation * SQUARE_SIZE);
@@ -244,6 +254,7 @@ public class Board extends Application {
                 }
                 else snapToOrigin();
             setRotate(rotation * 90);
+            toFront();
         }
         public int[] transformLayout(){
             double[][] distance = new double[5][9];
@@ -259,9 +270,13 @@ public class Board extends Application {
                     y = (getLayoutY() - 0.5 * SQUARE_SIZE - PLAY_AREA_Y) / SQUARE_SIZE;
                 }
 
-                if (piece == 'b' || piece == 'c' || piece == 'j' || piece == 'f') {
+                else if (piece == 'b' || piece == 'c' || piece == 'j' || piece == 'f') {
                     x = (getLayoutX() + SQUARE_SIZE - PLAY_AREA_X) / SQUARE_SIZE;
                     y = (getLayoutY() - SQUARE_SIZE - PLAY_AREA_Y) / SQUARE_SIZE;
+                }
+                else {
+                    x = (getLayoutX() - PLAY_AREA_X) / SQUARE_SIZE;
+                    y = (getLayoutY() - PLAY_AREA_Y) / SQUARE_SIZE;
                 }
             } else {
                 x = (getLayoutX() - PLAY_AREA_X) / SQUARE_SIZE;
@@ -303,9 +318,13 @@ public class Board extends Application {
                     setLayoutY(getLayoutY() + 0.5 * SQUARE_SIZE);
                 }
 
-                if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {
+                else if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {
                     setLayoutX(getLayoutX() - SQUARE_SIZE);
                     setLayoutY(getLayoutY() + SQUARE_SIZE);
+                }
+                else {
+                    setLayoutX(getLayoutX());
+                    setLayoutY(getLayoutY());
                 }
             }
             else if (rotation == 0 || rotation == 2){
@@ -314,14 +333,16 @@ public class Board extends Application {
                     setLayoutY(getLayoutY() - 0.5 * SQUARE_SIZE);
                 }
 
-                if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {
+                else if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {
                     setLayoutX(getLayoutX() + SQUARE_SIZE);
                     setLayoutY(getLayoutY() - SQUARE_SIZE);
                 }
+                else {
+                    setLayoutX(getLayoutX());
+                    setLayoutY(getLayoutY());
+                }
             }
             toFront();
-//            int[] layout = transformLayout();  //  xuanzhuan bu tongguo
-//            if (!boardIsPlacementValid(layout)) snapToOrigin();
         }
 
         public boolean onBoard(){
@@ -352,18 +373,21 @@ public class Board extends Application {
         }
         public boolean checkCompletion(){
             for (int i = 0; i < pieceState.length; i++){
-                if (pieceState[i] != 1)return false;
+                if (pieceState[i] != 1) {
+                    return false;
+                }
             }
-            return true;
+            String allPlacement = "";
+            for (int i = 0; i < placement.length; i++){
+                allPlacement += placement[i];
+            }
+            if (allPlacement.equals(solutionString)){
+                System.out.println("Good job！");
+                return true;
+            }
+            return false;
         }
     }
-//    private void makePieces() {
-//        pieces.getChildren().clear();
-//        for (char i = 'a'; i <= 'j'; i++) {
-//            pieces.getChildren().add(new DraggablePiece(i));
-//        }
-//    }
-
 
     // FIXME Task 8: Implement challenges (you may use challenges and assets provided for you in comp1110.ass2.gui.assets: sq-b.png, sq-g.png, sq-r.png & sq-w.png)
 
@@ -379,7 +403,7 @@ public class Board extends Application {
             int x = i % 3;
             int y = i / 3;
             show[i].setLayoutX(PLAY_AREA_X + 3 * SQUARE_SIZE + x * SQUARE_SIZE);
-            show[i].setLayoutY(BOARD_Y + BOARD_HEIGHT + SQUARE_SIZE + y * SQUARE_SIZE);
+            show[i].setLayoutY(BOARD_Y + BOARD_HEIGHT  + y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
         }
         for (int i = 0; i < challenge.length(); i++) {
             this.challenge.getChildren().add(show[i]);
@@ -387,80 +411,130 @@ public class Board extends Application {
         for (char i = 'a'; i <= 'j'; i++) {
             draggablePieces[i-'a'] = new DraggablePiece(i);
             this.pieces.getChildren().add(draggablePieces[i-'a']);
+            this.pieces.toFront();
         }
+//        for (int i = 0; i < placement.length; i ++){
+//            placement[i] = "";
+//            pieceState[i] = 0;
+//        }
         for (int i = 0; i < 3-level.levelToInt(level); i++){
             String placement = solution.substring(i*4,i*4+4);
             draggablePieces[i].initialization(placement);
         }
+        hints();
     }
 
-//    public void makeControls(){
-//        Button button = new Button("Restart");
-//        button.setLayoutX(PLAY_AREA_X + SQUARE_SIZE);
-//        button.setLayoutY(VIEWER_HEIGHT - 100);
-//        button.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent e) {
-//                newGame();
-//            }
-//        });
-//        controls.getChildren().add(button);
-//
-//        level.setMin(1);
-//        level.setMax(4);
-//        level.setValue(0);
-//        level.setShowTickLabels(true);
-//        level.setShowTickMarks(true);
-//        level.setMajorTickUnit(1);
-//        level.setMinorTickCount(1);
-//        level.setSnapToTicks(true);
-//
-//        level.setLayoutX(BOARD_X + BOARD_MARGIN + 70);
-//        level.setLayoutY(GAME_HEIGHT - 50);
-//        controls.getChildren().add(level);
-//
-//        final Label difficultyCaption = new Label("Difficulty:");
-//        difficultyCaption.setTextFill(Color.GREY);
-//        difficultyCaption.setLayoutX(BOARD_X + BOARD_MARGIN);
-//        difficultyCaption.setLayoutY(GAME_HEIGHT - 50);
-//        controls.getChildren().add(difficultyCaption);
-//    }
-    // FIXME Task 10: Implement hints
-    private void solution(String solution) {
-        for (int i = 0; i < solution.length(); i += 4) {
-            ShowPiece showPiece = new ShowPiece(solution.charAt(i), solution.charAt(i + 3));
-            int x = solution.charAt(i + 1) - '0';
-            int y = solution.charAt(i + 2) - '0';
-            showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
-            showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
-            if (solution.charAt(i + 3) == '1' || solution.charAt(i + 3) == '3') {
-                if (solution.charAt(i) == 'a' || solution.charAt(i) == 'd' || solution.charAt(i) == 'e' || solution.charAt(i) == 'g') {
-                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - 0.5 * SQUARE_SIZE);
-                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + 0.5 * SQUARE_SIZE);
-                }
-                if (solution.charAt(i) == 'b' || solution.charAt(i) == 'c' || solution.charAt(i) == 'j' || solution.charAt(i) == 'f') {
-                    showPiece.setLayoutX(PLAY_AREA_X + x * SQUARE_SIZE - SQUARE_SIZE);
-                    showPiece.setLayoutY(PLAY_AREA_Y + y * SQUARE_SIZE + SQUARE_SIZE);
-                }
+    public void makeControls(){
+        Button button = new Button("Restart");
+        button.setLayoutX(PLAY_AREA_X + 6*SQUARE_SIZE);
+        button.setLayoutY(VIEWER_HEIGHT - 100);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                newGame();
             }
-            this.solution.getChildren().add(showPiece);
-        }
-        this.solution.setOpacity(0);
+        });
+        controls.getChildren().add(button);
+
+        level.setMin(1);
+        level.setMax(4);
+        level.setValue(0);
+        level.setShowTickLabels(true);
+        level.setShowTickMarks(true);
+        level.setMajorTickUnit(1);
+        level.setMinorTickCount(0);
+        level.setSnapToTicks(true);
+        level.setLayoutX(PLAY_AREA_X + 3.5 * SQUARE_SIZE);
+        level.setLayoutY(VIEWER_HEIGHT - 1.5 * SQUARE_SIZE);
+        controls.getChildren().add(level);
+
+        final Label levelCaption = new Label("Level:");
+        levelCaption.setTextFill(Color.GREY);
+        levelCaption.setLayoutX(PLAY_AREA_X + 2.5 * SQUARE_SIZE);
+        levelCaption.setLayoutY(VIEWER_HEIGHT - 100);
+        controls.getChildren().add(levelCaption);
     }
-    private void hints(Scene scene){
+    public void newGame(){
+        hideHint();
+        this.challenge.getChildren().clear();
+        this.pieces.getChildren().clear();
+        int lev = (int)level.getValue() - 1;
+        Board newGame = new Board(lev);
+        for (int i = 0; i < placement.length; i++){
+            pieceState[i] = 0;
+            placement[i] = "";
+        }
+//        challenges(solutionString,challengeString,(intToLevel((int)level.getValue() - 1)));
+        challenges("a021b102c502d223e411f811g611h000i333j432","BRBBRBBWB",EXPERT);
+//        challenges(solutionForChallenge(lev),randomChallenge(lev),intToLevel(lev));
+
+    }
+    public static Level intToLevel(int levelValue){
+        switch (levelValue){
+            case 0:return STARTER;
+            case 1:return JUNIOR;
+            case 2:return MASTER;
+            case 3:return EXPERT;
+        }
+        return STARTER;
+    }
+    public static String solutionForChallenge(int levelValue){
+        return "";
+    }
+    public static String randomChallenge(int levelValue){
+        return "";
+    }
+    // FIXME Task 10: Implement hints
+    private void hints() {
+        this.hints.getChildren().clear();
+        int hintPiece = -1;
+        String hintplacement = "";
+        for (int i = 0; i < placement.length; i++){
+            if (placement[i].equals("")){
+                hintPiece = i;
+                break;
+            }
+        }
+        hintplacement = solutionString.substring(hintPiece * 4, hintPiece * 4 + 4);
+        ShowPiece showPiece = new ShowPiece(hintplacement.charAt(0), hintplacement.charAt(3));
+        int x = hintplacement.charAt(1) - '0';
+        int y = hintplacement.charAt(2) - '0';
+        showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
+        showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
+        showPiece.setRotate((hintplacement.charAt(3)) * 90);
+        if (hintplacement.charAt(3) == '1' || hintplacement.charAt(3) == '3') {
+            if (hintplacement.charAt(0) == 'a' || hintplacement.charAt(0) == 'd' || hintplacement.charAt(0) == 'e' || hintplacement.charAt(0) == 'g') {
+                showPiece.setLayoutX(showPiece.getLayoutX() - 0.5 * SQUARE_SIZE);
+                showPiece.setLayoutY(showPiece.getLayoutY()+ 0.5 * SQUARE_SIZE);
+            }
+            if (hintplacement.charAt(0) == 'b' || hintplacement.charAt(0) == 'c' || hintplacement.charAt(0) == 'j' || hintplacement.charAt(0) == 'f') {
+                showPiece.setLayoutX(showPiece.getLayoutX() - SQUARE_SIZE);
+                showPiece.setLayoutY(showPiece.getLayoutY()+ SQUARE_SIZE);
+            }
+        }
+        this.hints.getChildren().add(showPiece);
+        hideHint();
+    }
+    public void hideHint(){
+        this.hints.setOpacity(0);
+        this.hints.toBack();
+    }
+    public void showHint(){
+        this.hints.setOpacity(1);
+        this.hints.toFront();
+    }
+    private void showHints(Scene scene){
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                solution.setOpacity(1.0);
-                solution.toFront();
+            if (event.getCode() == KeyCode.R) {
+                showHint();
                 pieces.setOpacity(0);
                 event.consume();
             }
         });
         scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                solution.setOpacity(0);
-                solution.toBack();
-                pieces.setOpacity(1.0);
+            if (event.getCode() == KeyCode.R) {
+                hideHint();
+                pieces.setOpacity(1);
                 pieces.toFront();
                 event.consume();
             }
@@ -476,11 +550,12 @@ public class Board extends Application {
         root.getChildren().add(pieces);
         root.getChildren().add(board);
         root.getChildren().add(challenge);
-        root.getChildren().add(solution);
+        root.getChildren().add(hints);
+        root.getChildren().add(controls);
         challenges(solutionString, challengeString, lev);
-        hints(scene);
+        showHints(scene);;
         makeBoard();
-        solution(solutionString);
+        makeControls();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
