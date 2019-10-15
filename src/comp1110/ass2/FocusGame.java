@@ -22,17 +22,18 @@ import static comp1110.ass2.Color.NONE;
 public class FocusGame {
 
     private Color[][] boardstates = {
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-            {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+            {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+            {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+            {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+            {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+            {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
 
     };
 
     private int m;
 
     private Piece[][] pieces = new Piece[5][9];
+
     /**
      * Determine whether a piece placement is well-formed according to the
      * following criteria:
@@ -51,7 +52,7 @@ public class FocusGame {
                 && (piecePlacement.charAt(0) >= 'a' && piecePlacement.charAt(0) <= 'j')
                 && (piecePlacement.charAt(1) >= '0' && piecePlacement.charAt(1) <= '8')
                 && (piecePlacement.charAt(2) >= '0' && piecePlacement.charAt(2) <= '4')
-                && (piecePlacement.charAt(3) >= '0' && piecePlacement.charAt(3) <= '3')? true : false;
+                && (piecePlacement.charAt(3) >= '0' && piecePlacement.charAt(3) <= '3') ? true : false;
     }
 
     /**
@@ -90,13 +91,13 @@ public class FocusGame {
 
     /**
      * Determine whether a placement string is valid.
-     *
+     * <p>
      * To be valid, the placement string must be:
      * - well-formed, and
      * - each piece placement must be a valid placement according to the
-     *   rules of the game:
-     *   - pieces must be entirely on the board
-     *   - pieces must not overlap each other
+     * rules of the game:
+     * - pieces must be entirely on the board
+     * - pieces must not overlap each other
      *
      * @param placement A placement string
      * @return True if the placement sequence is valid
@@ -104,35 +105,34 @@ public class FocusGame {
     public static boolean isPlacementStringValid(String placement) {
         // FIXME Task 5: determine whether a placement string is valid
         Color[][] boardstates = {
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
 
         };
-        for (int i = 0 ; i< placement.length();i+=4 ){
-            String pieceString = placement.substring(i,i+4);
+        for (int i = 0; i < placement.length(); i += 4) {
+            String pieceString = placement.substring(i, i + 4);
             Piece piece = new Piece(pieceString);
             int originalY = piece.getLocation().getX();
             int originalX = piece.getLocation().getY();
-            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9){
+            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9) {
                 return false;
             }
-            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getX();
-            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getY();
-            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9){
+            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX, originalY, piece.getRotation()).getX();
+            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX, originalY, piece.getRotation()).getY();
+            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9) {
                 return false;
             }
-            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX() ; j++){
-                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++){
-                    int x = piece.getLocation().getY()+j;
-                    int y = piece.getLocation().getX()+k;
-                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null){
-                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE)  {
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
+                    int x = piece.getLocation().getY() + j;
+                    int y = piece.getLocation().getX() + k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null) {
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
                             boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
-                        }
-                        else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE){
+                        } else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
                             return false;
                         }
                     }
@@ -143,28 +143,27 @@ public class FocusGame {
     }
 
     public static boolean isPlacementStringValid(Color[][] boardstates, String placement) {
-        for (int i = 0 ; i< placement.length();i+=4 ){
-            String pieceString = placement.substring(i,i+4);
+        for (int i = 0; i < placement.length(); i += 4) {
+            String pieceString = placement.substring(i, i + 4);
             Piece piece = new Piece(pieceString);
             int originalY = piece.getLocation().getX();
             int originalX = piece.getLocation().getY();
-            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9){
+            if (originalX < 0 || originalY < 0 || originalX >= 5 || originalY >= 9) {
                 return false;
             }
-            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getX();
-            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX,originalY,piece.getRotation()).getY();
-            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9){
+            int rightCornerX = piece.getPieceType().getRightCornerLocation(originalX, originalY, piece.getRotation()).getX();
+            int rightCornerY = piece.getPieceType().getRightCornerLocation(originalX, originalY, piece.getRotation()).getY();
+            if (rightCornerX < 0 || rightCornerY < 0 || rightCornerX >= 5 || rightCornerY >= 9) {
                 return false;
             }
-            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX() ; j++){
-                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++){
-                    int x = piece.getLocation().getY()+j;
-                    int y = piece.getLocation().getX()+k;
-                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null){
-                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE)  {
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
+                    int x = piece.getLocation().getY() + j;
+                    int y = piece.getLocation().getX() + k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null) {
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
                             boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
-                        }
-                        else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE){
+                        } else if (boardstates[x][y] != NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
                             return false;
                         }
                     }
@@ -174,43 +173,43 @@ public class FocusGame {
         return true;
     }
 
-    public static Color[][] newBoardWithChallenge(String placement, String challenge){
+    public static Color[][] newBoardWithChallenge(String placement, String challenge) {
         Color[][] boardstates = {
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
         };
         //Update board states by challenge.
         int k = 0;
-        for (int i =1; i<4; i++){
-            for (int j = 3; j<6; j++){
+        for (int i = 1; i < 4; i++) {
+            for (int j = 3; j < 6; j++) {
                 boardstates[i][j] = Color.toColor(challenge.charAt(k));
                 k++;
             }
         }
         //Update board states with placement.
         if (placement.length() > 0) {
-            if (FocusGame.isPlacementStringValid(boardstates,placement)){
-                FocusGame.updateBoardstates(boardstates,placement);
+            if (FocusGame.isPlacementStringValid(boardstates, placement)) {
+                FocusGame.updateBoardstates(boardstates, placement);
             }
         }
         return boardstates;
     }
 
-    public static Color[][] newBoardWithChallenge(String challenge){
+    public static Color[][] newBoardWithChallenge(String challenge) {
         Color[][] boardstates = {
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
         };
         //Update board states by challenge.
         int k = 0;
-        for (int i =1; i<4; i++){
-            for (int j = 3; j<6; j++){
+        for (int i = 1; i < 4; i++) {
+            for (int j = 3; j < 6; j++) {
                 boardstates[i][j] = Color.toColor(challenge.charAt(k));
                 k++;
             }
@@ -218,13 +217,13 @@ public class FocusGame {
         return boardstates;
     }
 
-    public static Color[][] updateBoardstates (String placement) {
+    public static Color[][] updateBoardstates(String placement) {
         Color[][] boardstates = {
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE},
-                {Color.FATHER,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.NONE,Color.FATHER},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
         };
         if (FocusGame.isPlacementStringValid(placement)) {
             for (int i = 0; i < placement.length(); i += 4) {
@@ -247,18 +246,19 @@ public class FocusGame {
         }
         return boardstates;
     }
-    public static Color[][] updateBoardstates (Color[][] boardstates, String placement) {
-        for (int i = 0 ; i< placement.length();i+=4 ){
-            String pieceString = placement.substring(i,i+4);
+
+    public static Color[][] updateBoardstates(Color[][] boardstates, String placement) {
+        for (int i = 0; i < placement.length(); i += 4) {
+            String pieceString = placement.substring(i, i + 4);
             Piece piece = new Piece(pieceString);
             int originalY = piece.getLocation().getX();
             int originalX = piece.getLocation().getY();
-            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX() ; j++){
-                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++){
-                    int x = piece.getLocation().getY()+j;
-                    int y = piece.getLocation().getX()+k;
-                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null){
-                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation())!=NONE)  {
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
+                    int x = piece.getLocation().getY() + j;
+                    int y = piece.getLocation().getX() + k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null) {
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
                             boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
                         }
                     }
@@ -267,33 +267,35 @@ public class FocusGame {
         }
         return boardstates;
     }
-    public static void seeMap(Color[][] boardstates){
-        for (int i = 0; i<5;i++){
-            for (int j =0;j<9;j++){
-                System.out.print(boardstates[i][j]+" ");
+
+    public static void seeMap(Color[][] boardstates) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(boardstates[i][j] + " ");
             }
             System.out.println();
         }
     }
 
-    public static boolean placeConsistentWithChallenge(Color[][] withChallenge, Color[][] noChallenge){
-        for (int i =1; i<4; i++){
-            for (int j = 3; j<6; j++){
-                if (noChallenge[i][j]!=NONE){
-                    if (noChallenge[i][j]!=withChallenge[i][j])
+    public static boolean placeConsistentWithChallenge(Color[][] withChallenge, Color[][] noChallenge) {
+        for (int i = 1; i < 4; i++) {
+            for (int j = 3; j < 6; j++) {
+                if (noChallenge[i][j] != NONE) {
+                    if (noChallenge[i][j] != withChallenge[i][j])
                         return false;
                 }
             }
         }
         return true;
     }
-    public static boolean placeConsistentWithChallenge(String challenge, String placement){
+
+    public static boolean placeConsistentWithChallenge(String challenge, String placement) {
         Color[][] withChallenge = newBoardWithChallenge(challenge);
         Color[][] noChallenge = updateBoardstates(placement);
-        for (int i =1; i<4; i++){
-            for (int j = 3; j<6; j++){
-                if (noChallenge[i][j]!=NONE){
-                    if (noChallenge[i][j]!=withChallenge[i][j])
+        for (int i = 1; i < 4; i++) {
+            for (int j = 3; j < 6; j++) {
+                if (noChallenge[i][j] != NONE) {
+                    if (noChallenge[i][j] != withChallenge[i][j])
                         return false;
                 }
             }
@@ -305,7 +307,7 @@ public class FocusGame {
      * Given a string describing a placement of pieces and a string describing
      * a challenge, return a set of all possible next viable piece placements
      * which cover a specific board cell.
-     *
+     * <p>
      * For a piece placement to be viable
      * - it must be valid
      * - it must be consistent with the challenge
@@ -322,8 +324,8 @@ public class FocusGame {
      *                  - 'B' = Blue square
      *                  - 'G' = Green square
      *                  - 'W' = White square
-     * @param col      The cell's column.
-     * @param row      The cell's row.
+     * @param col       The cell's column.
+     * @param row       The cell's row.
      * @return A set of viable piece placements, or null if there are none.
      */
 
@@ -371,17 +373,18 @@ public class FocusGame {
         } else return set;
 
     }
+
     /**
      * Return the canonical encoding of the solution to a particular challenge.
-     *
+     * <p>
      * A given challenge can only solved with a single placement of pieces.
-     *
+     * <p>
      * Since some piece placements can be described two ways (due to symmetry),
      * you need to use a canonical encoding of the placement, which means you
      * must:
      * - Order the placement sequence by piece IDs
      * - If a piece exhibits rotational symmetry, only return the lowest
-     *   orientation value (0 or 1)
+     * orientation value (0 or 1)
      *
      * @param challenge A challenge string.
      * @return A placement string describing a canonical encoding of the solution to
@@ -389,7 +392,8 @@ public class FocusGame {
      */
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
 
-        String state = "";
+        String state = next("", challenge);
+        //String state = conditionSolution("", challenge);
 
         /*Set<String> set0 = getViablePiecePlacements("", challenge, 0, 0);
         String state0 = "";
@@ -427,8 +431,19 @@ public class FocusGame {
         return state;
     }
 
-    public static String finalNext() {
-        return null;
+    public static String next(String state, String challenge) {
+        String state0 = "";
+        String tail = "";
+        if (state.length() > 4) {
+            state0 = state.substring(0, state.length()-4);
+            tail = state.substring(state.length()-4);
+        }
+
+        Set<String> set0 = getViablePiecePlacements(state0, challenge, nextBlank(state0)[0], nextBlank(state0)[1]);
+        set0.remove()
+        Set<String> set = getViablePiecePlacements(state, challenge, nextBlank(state)[0], nextBlank(state)[1]);
+
+        return state;
     }
 
     public static String conditionSolution(String state, String challenge) {
@@ -451,11 +466,11 @@ public class FocusGame {
         if (set != null) {
             int size = set.size();
             for (int i = 0; i < size; i++) {
-                next = (String)set.toArray()[i];
+                next = (String) set.toArray()[i];
                 state += next;
-                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state, challenge, x, y)[0], nextBlank(state, challenge, x, y)[1]);
+                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state)[0], nextBlank(state)[1]);
                 if (set1 == null) {
-                    state = state.substring(0, state.length()-4);
+                    state = state.substring(0, state.length() - 4);
                 } else {
                     break;
                 }
@@ -464,13 +479,20 @@ public class FocusGame {
         return next;
     }
 
-    public static int[] nextBlank(String state, String challenge, int x, int y) {
+    public static int[] nextBlank(String state) {
         Color[][] boardstates = updateBoardstates(state);
         int[] result = new int[2];
-        while (!isBlank(boardstates, x, y)) {
-            int temp = x;
-            x = nextX(temp, y);
-            y = nextY(temp, y);
+        int x = 0;
+        int y = 0;
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 9; i++) {
+                if (isBlank(boardstates, i, j)){
+                    x = i;
+                    y = j;
+                    break;
+                }
+            }
+            break;
         }
         result[0] = x;
         result[1] = y;
@@ -505,7 +527,9 @@ public class FocusGame {
     }
 
     public static void main(String[] args) {
-        String state = conditionSolution("", "RRRRRRRRRR");
+        Set<String> s = getViablePiecePlacements("f000a300h601j010d513g611c122i030e232", "RRRRRRRRRR", 5, 3);
+        System.out.println(s);
+        /*String state = conditionSolution("", "RRRRRRRRRR");
         System.out.println(state);
         int length = state.length();
         System.out.println(length);
@@ -514,11 +538,11 @@ public class FocusGame {
         Set<String> cs = getViablePiecePlacements("e003f102d402h501a213i622", "RRRRRRRRRR", 0, 3);
         System.out.println(cs);
         if (length != 40) {
-            x = Integer.parseInt(state.substring(length-7, length-6));
+            x = Integer.parseInt(state.substring(length - 7, length - 6));
             System.out.println(x);
-            y = Integer.parseInt(state.substring(length-6, length-5));
+            y = Integer.parseInt(state.substring(length - 6, length - 5));
             System.out.println(y);
-            state = state.substring(0, length-4);
+            state = state.substring(0, length - 4);
             System.out.println(state);
             for (int j = 0; j < 5; j++) {
                 for (int i = 0; i < 9; i++) {
@@ -526,11 +550,11 @@ public class FocusGame {
                         Set<String> set = getViablePiecePlacements(state, "RRRRRRRRRR", i, j);
                         System.out.println(set);
                         if (set != null) {
-                            state += (String)set.toArray()[0];
+                            state += (String) set.toArray()[0];
                         }
                     }
                 }
             }
-        }
+        }*/
     }
 }
