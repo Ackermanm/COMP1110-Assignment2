@@ -21,7 +21,7 @@ import static comp1110.ass2.Color.NONE;
  */
 public class FocusGame {
 
-    private Color[][] boardstates = {
+    private static Color[][] boardstates = {
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
@@ -171,6 +171,17 @@ public class FocusGame {
             }
         }
         return true;
+    }
+
+    public static Color[][] initialize() {
+        Color[][] board = {
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
+                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+        };
+        return board;
     }
 
     public static Color[][] newBoardWithChallenge(String placement, String challenge) {
@@ -390,171 +401,115 @@ public class FocusGame {
      * @return A placement string describing a canonical encoding of the solution to
      * the challenge.
      */
-    public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
 
-        String state = next("", challenge);
-        //String state = conditionSolution("", challenge);
-
-        /*Set<String> set0 = getViablePiecePlacements("", challenge, 0, 0);
-        String state0 = "";
-        String state1 = "";
-        for (String s0 : set0) {
-            state0 = s0;
-            for (int j = 0; j < 5; j++) {
-                for (int i = 0; i < 9; i++) {
-                    if (isBlank(updateBoardstates(state0), i, j)) {
-                        Set<String> set1 = getViablePiecePlacements(state0, challenge, i, j);
-                        if (set1 != null) {
-                            for (String s1 : set1) {
-                                state1 = s1;
+    static Set<String> getViablePiecePlacements1(String placement, String challenge, int col, int row) {
+        Set<String> set = new HashSet<>();
+        //Get pieces' types which are not in placement string.
+        String allPieceType = "ABCDEFGHIJ";
+        String notPlacedPieceType = allPieceType;
+        for (int i = 0; i < placement.length(); i += 4) {
+            String placedPieceType = Character.toString(placement.charAt(i)).toUpperCase();
+            notPlacedPieceType = notPlacedPieceType.replace("" + placedPieceType + "", "");
+        }
+        Color[][] boardstates;
+        Color[][] challengeBoardstates;
+        Color[][] putPieceString;
+        //l is the piece types which have not been used.
+        if (notPlacedPieceType != null && notPlacedPieceType != "") {
+            for (int l = 0; l < notPlacedPieceType.length(); l++) {
+                for (int i = -3; i <= 0; i++) {
+                    for (int j = -3; j <= 0; j++) {
+                        int tempCol = col + i;
+                        int tempRow = row + j;
+                        if (tempCol >= 0 && tempRow >= 0) {
+                            for (Rotation r : Rotation.values()) {
+                                String pieceString = Character.toString(notPlacedPieceType.charAt(l)).toLowerCase() + "" + tempCol + "" + "" + tempRow + "" + r.rotationToNumber();
+                                boardstates = updateBoardstates(placement);
+                                challengeBoardstates = newBoardWithChallenge(challenge);
+                                if (placeConsistentWithChallenge(challengeBoardstates, boardstates)
+                                        && isPlacementStringValid(boardstates, pieceString)
+                                        && placeConsistentWithChallenge(challenge, pieceString)
+                                ) {
+                                    putPieceString = updateBoardstates(boardstates, pieceString);
+                                    if (putPieceString[row][col] != NONE) {
+                                        set.add(pieceString);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-        }*/
-        /*int length = state.length();
-        if (length != 40) {
-            int x = Integer.parseInt(state.substring(length-7, length-6));
-            int y = Integer.parseInt(state.substring(length-6, length-5));
-            state = state.substring(0, length-4);
-            for (int j = y; j < 5; j++) {
-                for (int i = x; i < 9; i++) {
-                    if (isBlank(updateBoardstates(state), i, j)) {
-                        Set<String> set = getViablePiecePlacements(state, challenge, i, j);
-                        state += (String)set.toArray()[0];
+        }
+
+        if (set.size() == 0) {
+            return null;
+        } else {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (set.contains("f" + j + "" + i + "" + 2) && set.contains("f" + j + "" + i + "" + 0)) {
+                        set.remove("f" + j + "" + i + "" + 2);
+                    }
+                    if (set.contains("f" + j + "" + i + "" + 3) && set.contains("f" + j + "" + i + "" + 1)) {
+                        set.remove("f" + j + "" + i + "" + 3);
+                    }
+                    if (set.contains("g" + j + "" + i + "" + 2) && set.contains("g" + j + "" + i + "" + 0)) {
+                        set.remove("g" + j + "" + i + "" + 2);
+                    }
+                    if (set.contains("g" + j + "" + i + "" + 3) && set.contains("g" + j + "" + i + "" + 1)) {
+                        set.remove("g" + j + "" + i + "" + 3);
                     }
                 }
             }
-        }*/
-
-        return state;
-    }
-
-    public static String next(String state, String challenge) {
-        String state0 = "";
-        String tail = "";
-        if (state.length() > 4) {
-            state0 = state.substring(0, state.length()-4);
-            tail = state.substring(state.length()-4);
+            return set;
         }
-
-        Set<String> set0 = getViablePiecePlacements(state0, challenge, nextBlank(state0)[0], nextBlank(state0)[1]);
-        set0.remove()
-        Set<String> set = getViablePiecePlacements(state, challenge, nextBlank(state)[0], nextBlank(state)[1]);
-
-        return state;
     }
 
-    public static String conditionSolution(String state, String challenge) {
-        String next = "";
-        for (int j = 0; j < 5; j++) {
-            for (int i = 0; i < 9; i++) {
-                if (isBlank(updateBoardstates(state), i, j)) {
-                    next = nextPlacement(state, challenge, i, j);
-                    state += next;
-                    break;
-                }
-            }
-        }
-        return state;
+    public static String placement = "";
+
+    public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
+
+        boardstates = initialize();
+        String answer = getSolution1(challenge);
+        placement = "";
+
+        return answer;
     }
 
-    public static String nextPlacement(String state, String challenge, int x, int y) {
-        String next = "";
-        Set<String> set = getViablePiecePlacements(state, challenge, x, y);
-        if (set != null) {
-            int size = set.size();
-            for (int i = 0; i < size; i++) {
-                next = (String) set.toArray()[i];
-                state += next;
-                Set<String> set1 = getViablePiecePlacements(state, challenge, nextBlank(state)[0], nextBlank(state)[1]);
-                if (set1 == null) {
-                    state = state.substring(0, state.length() - 4);
-                } else {
-                    break;
-                }
-            }
-        }
-        return next;
-    }
-
-    public static int[] nextBlank(String state) {
-        Color[][] boardstates = updateBoardstates(state);
-        int[] result = new int[2];
-        int x = 0;
-        int y = 0;
-        for (int j = 0; j < 5; j++) {
-            for (int i = 0; i < 9; i++) {
-                if (isBlank(boardstates, i, j)){
-                    x = i;
-                    y = j;
-                    break;
-                }
-            }
-            break;
-        }
-        result[0] = x;
-        result[1] = y;
-        return result;
-    }
-
-    public static Boolean isBlank(Color[][] boardstates, int x, int y) { // determine whether a position have color or not
-        if (boardstates[y][x] == Color.NONE)
-            return true;
-        else
-            return false;
-    }
-
-    public static int nextX(int x, int y) {
-        int result = 0;
-        if (x < 8) {
-            result = x + 1;
+    public static String getSolution1(String challenge) {
+        if (placement.length() == 40) {
+            return placement;
         } else {
-            result = 0;
-        }
-        return result;
-    }
-
-    public static int nextY(int x, int y) {
-        int result = 0;
-        if (x < 8) {
-            result = y;
-        } else {
-            result = y + 1;
-        }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        Set<String> s = getViablePiecePlacements("f000a300h601j010d513g611c122i030e232", "RRRRRRRRRR", 5, 3);
-        System.out.println(s);
-        /*String state = conditionSolution("", "RRRRRRRRRR");
-        System.out.println(state);
-        int length = state.length();
-        System.out.println(length);
-        int x = 0;
-        int y = 0;
-        Set<String> cs = getViablePiecePlacements("e003f102d402h501a213i622", "RRRRRRRRRR", 0, 3);
-        System.out.println(cs);
-        if (length != 40) {
-            x = Integer.parseInt(state.substring(length - 7, length - 6));
-            System.out.println(x);
-            y = Integer.parseInt(state.substring(length - 6, length - 5));
-            System.out.println(y);
-            state = state.substring(0, length - 4);
-            System.out.println(state);
-            for (int j = 0; j < 5; j++) {
-                for (int i = 0; i < 9; i++) {
-                    if (isBlank(updateBoardstates(state), i, j)) {
-                        Set<String> set = getViablePiecePlacements(state, "RRRRRRRRRR", i, j);
-                        System.out.println(set);
-                        if (set != null) {
-                            state += (String) set.toArray()[0];
+            int a = 0;
+            outterLoop:
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 9; col++) {
+                    if (boardstates[row][col] == NONE) {
+                        Set<String> set;
+                        set = getViablePiecePlacements1(placement, challenge, col, row);
+                        if (set == null) {
+                            return placement;
                         }
+                        if (set != null) {
+                            for (String newPlace : set) {
+                                placement += newPlace;
+                                boardstates = updateBoardstates(placement);
+                                getSolution1(challenge);
+                                if (placement.length() == 40) {
+                                    return placement;
+                                }
+                                placement = placement.substring(0, placement.length() - 4);
+                                boardstates = updateBoardstates(placement);
+                            }
+                            return placement;
+                        }
+                        a = 1;
                     }
+                    if (a == 1) break;
                 }
+                if (a == 1) break;
             }
-        }*/
+        }
+        return placement;
     }
 }
