@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TestUtility {
 
     static final Solution[] SOLUTIONS = {
@@ -409,16 +412,6 @@ public class TestUtility {
                     3,
                     "a121f130f132g121g123g130g132i121i130i132i133j130"),
     };
-}
-
-class Solution {
-    String objective;
-    String placement;
-
-    Solution(String iObjective, String iPlacement) {
-        objective = iObjective;
-        placement = iPlacement;
-    }
 }
 
 class ViablePlacement {

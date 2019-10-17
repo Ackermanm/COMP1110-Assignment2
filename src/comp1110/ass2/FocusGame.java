@@ -260,8 +260,6 @@ public class FocusGame {
             for (int i = 0; i < placement.length(); i += 4) {
                 String pieceString = placement.substring(i, i + 4);
                 Piece piece = new Piece(pieceString);
-                int originalY = piece.getLocation().getX();
-                int originalX = piece.getLocation().getY();
                 for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
                     for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
                         int x = piece.getLocation().getY() + j;
@@ -289,8 +287,6 @@ public class FocusGame {
         for (int i = 0; i < placement.length(); i += 4) {
             String pieceString = placement.substring(i, i + 4);
             Piece piece = new Piece(pieceString);
-            int originalY = piece.getLocation().getX();
-            int originalX = piece.getLocation().getY();
             for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
                 for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
                     int x = piece.getLocation().getY() + j;
@@ -303,6 +299,22 @@ public class FocusGame {
                 }
             }
         }
+        return boardstates;
+    }
+
+    public static Color[][] addPiece(Color[][] boardstates, String placement) {
+            Piece piece = new Piece(placement);
+            for (int j = 0; j < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getX(); j++) {
+                for (int k = 0; k < piece.getPieceType().getLengthAndHeight(piece.getRotation()).getY(); k++) {
+                    int x = piece.getLocation().getY() + j;
+                    int y = piece.getLocation().getX() + k;
+                    if (piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != null) {
+                        if (boardstates[x][y] == NONE && piece.getPieceType().colorFromOffSet(j, k, piece.getRotation()) != NONE) {
+                            boardstates[x][y] = piece.getPieceType().colorFromOffSet(j, k, piece.getRotation());
+                        }
+                    }
+                }
+            }
         return boardstates;
     }
 
@@ -516,8 +528,8 @@ public class FocusGame {
         if (placement.length() == 40) {
             return placement;
         } else {
-            int a = 0;
-            outterLoop:
+//            int a = 0;
+//            outterLoop:
             for (int row = 0; row < 5; row++) {
                 for (int col = 0; col < 9; col++) {
                     if (boardstates[row][col] == NONE) {
@@ -526,10 +538,10 @@ public class FocusGame {
                         if (set == null) {
                             return placement;
                         }
-                        if (set != null) {
+//                        if (set != null) {
                             for (String newPlace : set) {
                                 placement += newPlace;
-                                boardstates = updateBoardstates(placement);
+                                boardstates = addPiece(boardstates,newPlace);
                                 getSolution1(challenge);
                                 if (placement.length() == 40) {
                                     return placement;
@@ -538,12 +550,12 @@ public class FocusGame {
                                 boardstates = updateBoardstates(placement);
                             }
                             return placement;
-                        }
-                        a = 1;
+//                        }
+//                        a = 1;
                     }
-                    if (a == 1) break;
+//                    if (a == 1) break;
                 }
-                if (a == 1) break;
+//                if (a == 1) break;
             }
         }
         return placement;
