@@ -221,7 +221,7 @@ public class FocusGame {
      *
      * @param challenge A string represents challenge.
      * @return Return a new board which updates challenge.
-     * @author Yafei Liu(u6605935)
+     * @author Bowen Tan(u6822656)
      */
     public static Color[][] newBoardWithChallenge(String challenge) {
         Color[][] boardstates = {
@@ -311,7 +311,7 @@ public class FocusGame {
      * @param withChallenge A board states that only updated challenge on it.
      * @param noChallenge A board states that have some piece placements updated on it.
      * @return Return true if the first board is consistent with the second board only in the challenge place.
-     * @author Yafei Liu(u6605935)
+     * @author Bowen Tan(u6822656)
      */
     public static boolean placeConsistentWithChallenge(Color[][] withChallenge, Color[][] noChallenge) {
         for (int i = 1; i < 4; i++) {
@@ -330,7 +330,7 @@ public class FocusGame {
      * @param challenge A challenge string.
      * @param placement A placement string.
      * @return Return true if challenge string is consistent with placement string.
-     * @author Yafei Liu(u6605935)
+     * @author Bowen Tan(u6822656)
      */
     public static boolean placeConsistentWithChallenge(String challenge, String placement) {
         Color[][] withChallenge = newBoardWithChallenge(challenge);
