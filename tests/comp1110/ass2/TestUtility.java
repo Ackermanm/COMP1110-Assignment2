@@ -3,6 +3,7 @@ package comp1110.ass2;
 import java.util.HashSet;
 import java.util.Set;
 
+<<<<<<<<< Temporary merge branch 1
 public class TestUtility {
 
     static final String[] BAD_PIECES = {

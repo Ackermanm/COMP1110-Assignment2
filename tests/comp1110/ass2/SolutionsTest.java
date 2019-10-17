@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SolutionsTest {
     @Rule
-    public Timeout globalTimeout = Timeout.millis(120000);
+    public Timeout globalTimeout = Timeout.millis(1200000);
 
 
     private void test(String objective, Set<Set<String>> expected) {
@@ -66,7 +66,7 @@ public class SolutionsTest {
 
     @Test
     public void test_expert() {
-        for (int i = (2 * (SOLUTIONS.length / 5)); i < (3 * (SOLUTIONS.length / 5)); i++) {
+        for (int i = (2 * (SOLUTIONS.length / 5)); i < (2.05 * (SOLUTIONS.length / 5)); i++) {
             Set<Set<String>> exp = new LinkedHashSet<>();
             for (String sol : SOLUTIONS[i].placements) {
                 TreeSet<String> outSet = new TreeSet<>();
