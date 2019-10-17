@@ -506,8 +506,8 @@ public class FocusGame {
     public static String getSolution(String challenge) { // FIXME Task 9: determine the solution to the game, given a particular challenge
 
         boardstates = initialize();
-        String answer = getSolution1(challenge);
         placement = "";
+        String answer = getSolution1(challenge);
 
         return answer;
     }
@@ -521,8 +521,7 @@ public class FocusGame {
             for (int row = 0; row < 5; row++) {
                 for (int col = 0; col < 9; col++) {
                     if (boardstates[row][col] == NONE) {
-                        Set<String> set;
-                        set = getViablePiecePlacements1(placement, challenge, col, row);
+                        Set<String> set = getViablePiecePlacements1(placement, challenge, col, row);
                         if (set == null) {
                             return placement;
                         }
