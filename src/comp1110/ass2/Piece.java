@@ -1,7 +1,7 @@
 package comp1110.ass2;
 
 /**
- * Store a piece's piecetyoe coordinates and rotation.
+ * Store a piece's piece type, coordinates and rotation.
  * @pieceType A enum type represents piece type.
  * @location The coordinates of a piece.
  * @rotation A enum type represents piece rotation.
