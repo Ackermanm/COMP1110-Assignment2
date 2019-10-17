@@ -39,6 +39,7 @@ public class FocusGame {
      *
      * @param piecePlacement A string describing a piece placement
      * @return True if the piece placement is well-formed
+     * @author Xing Meng(u6483085)
      */
     static boolean isPiecePlacementWellFormed(String piecePlacement) { // FIXME Task 2: determine whether a piece placement is well-formed
 
@@ -57,6 +58,7 @@ public class FocusGame {
      *
      * @param placement A string describing a placement of one or more pieces
      * @return True if the placement is well-formed
+     * @author Xing Meng(u6483085)
      */
     public static boolean isPlacementStringWellFormed(String placement) { // FIXME Task 3: determine whether a placement is well-formed
 
@@ -500,6 +502,24 @@ public class FocusGame {
             return set;
         }
     }
+
+    /**
+     * Return the canonical encoding of the solution to a particular challenge.
+     *
+     * A given challenge can only solved with a single placement of pieces.
+     *
+     * Since some piece placements can be described two ways (due to symmetry),
+     * you need to use a canonical encoding of the placement, which means you
+     * must:
+     * - Order the placement sequence by piece IDs
+     * - If a piece exhibits rotational symmetry, only return the lowest
+     *   orientation value (0 or 1)
+     *
+     * @param challenge A challenge string.
+     * @return A placement string describing a canonical encoding of the solution to
+     * the challenge.
+     * @author Xing Meng(u6483085)
+     */
 
     public static String placement = "";
 
