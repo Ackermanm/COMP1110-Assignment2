@@ -676,6 +676,22 @@ public class Board extends Application {
     }
     // FIXME Task 11: Generate interesting challenges (each challenge may have just one solution)
 
+    public void interestingChallenges(){
+        Random random = new Random();
+        String challenge = "";
+        int ran = 0;
+        String color = "RWBG";
+        for (int i = 0; i < 9; i++){
+            ran = random.nextInt(4);
+            challenge += color.substring(ran,ran+1);
+        }
+        String solution = "";
+        solution = FocusGame.getSolution(challenge);
+        if (solution.length() == 40){
+            challenges(solution, challenge, 3);
+        }
+    }
+
     @Override
 
     public void start(Stage primaryStage) throws Exception {
@@ -695,7 +711,7 @@ public class Board extends Application {
     }
 
     /**
-     * This are solutions and corresponding challenges that I copy from TestUtility to complete task 8(give a new challenge).
+     * These are solutions and corresponding challenges that I copy from TestUtility to complete task 8(give a new challenge).
      * @author Yafei Liu(u6605935)
      */
      static final Solution[] SOLUTIONS = {

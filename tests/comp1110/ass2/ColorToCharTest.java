@@ -42,7 +42,7 @@ public class ColorToCharTest {
 
     @Test
     public void testFather() {
-        test(Color.FATHER, 'F');
+        test(Color.B, 'F');
     }
 }
 
