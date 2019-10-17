@@ -12,10 +12,10 @@ declaration: >-
 contributions:
   - uid: u6605935
     contribution: 45
-  - uid: Xing Meng
+  - uid: u6483085
     contribution: 35
-  - uid:
-    contribution:
+  - uid: u6822656
+    contribution: 20
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members)
@@ -24,5 +24,5 @@ signatures:
     uid: u6605935
   - name: Xing Meng
     uid: u6483085
-  - name:
-    uid:
+  - name: Bowen Tan
+    uid: u6822656
