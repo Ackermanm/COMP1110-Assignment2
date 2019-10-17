@@ -536,7 +536,7 @@ public class FocusGame {
         if (placement.length() == 40) {
             return placement;
         } else {
-            boolean complete = false; // A flag to tell the loop is complete
+            boolean complete = false; // A flag to tell whether the loop is complete
             outterLoop:
             for (int col = 0; col < 9; col++) {
                 for (int row = 0; row < 5; row++) {
