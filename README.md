@@ -59,6 +59,8 @@ easier than others.  Note that as a general rule for puzzles, the more
 constrained the player is, the fewer options they have, and
 consequently the solution to the challenge is simpler.
 
+The game comes with five difficulty levels: _starter_, _junior_, _expert_, _master_, and _wizard_, and offers 24 challenges at each level, for a total of 120 prescribed challenges.   These challenges are provided for you in the [Solutions class](https://gitlab.cecs.anu.edu.au/comp1110/comp1110-ass2/blob/master/src/comp1110/ass2/Solution.java#L28), and the different difficulty levels are tested in the [SolutionsTest](https://gitlab.cecs.anu.edu.au/comp1110/comp1110-ass2/blob/master/tests/comp1110/ass2/SolutionsTest.java#L38) test.
+
 #### Solutions
 
 Each challenge has just one solution.  When we refer to solutions, we
@@ -92,7 +94,9 @@ example, in the game above, the first piece is put on position `30`
 and the second is put on `32`.  Note that pieces are addressed as `XY`
 where `X` identifies the column where the left-most square of the
 piece is in, and `Y` identifies the row where the top square of the
-piece is in.
+piece is in.   Yellow dots in the diagram above indicate the
+point of reference (i.e. the top-most row and left-most column
+occupied by the piece).
 
 #### Pieces
 
@@ -103,7 +107,9 @@ plastic board formed by the 43 locations.
 
 Each piece can be **rotated** at 90 degree increments, allowing for 4
 different **orientations**.  The following illustration shows all 40
-possible combinations of the 10 pieces and 4 orientations.
+possible combinations of the 10 pieces and 4 orientations.   (Yellow
+dots indicate the point of reference for the piece's location,
+described below).
 
 <img src="assets/all_pieces.png">
 
