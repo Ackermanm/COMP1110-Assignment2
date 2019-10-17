@@ -12,17 +12,17 @@ declaration: >-
 contributions:
   - uid: u6605935
     contribution: 45
-  - uid:
-    contribution:
-  - uid:
-    contribution:
+  - uid: u6483085
+    contribution: 35
+  - uid: u6822656
+    contribution: 20
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members)
 signatures:
   - name: Yafei Liu
     uid: u6605935
-  - name:
-    uid:
-  - name:
-    uid:
+  - name: Xing Meng
+    uid: u6483085
+  - name: Bowen Tan
+    uid: u6822656
