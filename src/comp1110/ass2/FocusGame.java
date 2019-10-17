@@ -518,8 +518,8 @@ public class FocusGame {
         } else {
             int a = 0;
             outterLoop:
-            for (int row = 0; row < 5; row++) {
-                for (int col = 0; col < 9; col++) {
+            for (int col = 0; col < 9; col++) {
+                for (int row = 0; row < 5; row++) {
                     if (boardstates[row][col] == NONE) {
                         Set<String> set = getViablePiecePlacements1(placement, challenge, col, row);
                         if (set == null) {
