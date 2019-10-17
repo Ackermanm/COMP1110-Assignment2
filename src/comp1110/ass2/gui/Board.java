@@ -14,7 +14,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.Random;
 
@@ -383,7 +387,17 @@ public class Board extends Application {
                 allPlacement += placement[i];
             }
             if (allPlacement.equals(SOLUTIONS[a].placement)){
-                System.out.println("Good job！");
+//                Stage stage = new Stage();
+//                stage.setTitle("Hi");
+//                Scene scene = new Scene(root, 300, 300);
+//                stage.setScene(scene);
+//                Text hi = new Text("Good job!");
+//                hi.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+//                hi.setFill(Color.RED);
+//                hi.setOpacity(1.0);
+//                hints.getChildren().add(hi);
+//                stage.show();
+                System.out.println("Good job!");
                 return true;
             }
             return false;
@@ -462,7 +476,7 @@ public class Board extends Application {
             placement[i] = "";
         }
         Random random = new Random();
-        int a = random.nextInt(120);
+        a = random.nextInt(120);
         challenges(SOLUTIONS[a].placement,SOLUTIONS[a].objective,lev);
     }
 
@@ -477,25 +491,37 @@ public class Board extends Application {
                 break;
             }
         }
-        hintplacement = SOLUTIONS[a].placement.substring(hintPiece * 4, hintPiece * 4 + 4);
-        ShowPiece showPiece = new ShowPiece(hintplacement.charAt(0), hintplacement.charAt(3));
-        int x = hintplacement.charAt(1) - '0';
-        int y = hintplacement.charAt(2) - '0';
-        showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
-        showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
-        showPiece.setRotate((hintplacement.charAt(3)) * 90);
-        if (hintplacement.charAt(3) == '1' || hintplacement.charAt(3) == '3') {
-            if (hintplacement.charAt(0) == 'a' || hintplacement.charAt(0) == 'd' || hintplacement.charAt(0) == 'e' || hintplacement.charAt(0) == 'g') {
-                showPiece.setLayoutX(showPiece.getLayoutX() - 0.5 * SQUARE_SIZE);
-                showPiece.setLayoutY(showPiece.getLayoutY()+ 0.5 * SQUARE_SIZE);
+        if (checkFinish()){
+        }
+        else {
+            hintplacement = SOLUTIONS[a].placement.substring(hintPiece * 4, hintPiece * 4 + 4);
+            ShowPiece showPiece = new ShowPiece(hintplacement.charAt(0), hintplacement.charAt(3));
+            int x = hintplacement.charAt(1) - '0';
+            int y = hintplacement.charAt(2) - '0';
+            showPiece.setLayoutX(PLAY_AREA_X + (x * SQUARE_SIZE));
+            showPiece.setLayoutY(PLAY_AREA_Y + (y * SQUARE_SIZE));
+            showPiece.setRotate((hintplacement.charAt(3)) * 90);
+            if (hintplacement.charAt(3) == '1' || hintplacement.charAt(3) == '3') {
+                if (hintplacement.charAt(0) == 'a' || hintplacement.charAt(0) == 'd' || hintplacement.charAt(0) == 'e' || hintplacement.charAt(0) == 'g') {
+                    showPiece.setLayoutX(showPiece.getLayoutX() - 0.5 * SQUARE_SIZE);
+                    showPiece.setLayoutY(showPiece.getLayoutY() + 0.5 * SQUARE_SIZE);
+                }
+                if (hintplacement.charAt(0) == 'b' || hintplacement.charAt(0) == 'c' || hintplacement.charAt(0) == 'j' || hintplacement.charAt(0) == 'f') {
+                    showPiece.setLayoutX(showPiece.getLayoutX() - SQUARE_SIZE);
+                    showPiece.setLayoutY(showPiece.getLayoutY() + SQUARE_SIZE);
+                }
             }
-            if (hintplacement.charAt(0) == 'b' || hintplacement.charAt(0) == 'c' || hintplacement.charAt(0) == 'j' || hintplacement.charAt(0) == 'f') {
-                showPiece.setLayoutX(showPiece.getLayoutX() - SQUARE_SIZE);
-                showPiece.setLayoutY(showPiece.getLayoutY()+ SQUARE_SIZE);
+            this.hints.getChildren().add(showPiece);
+            hideHint();
+        }
+    }
+    public boolean checkFinish(){
+        for (int i = 0; i < placement.length; i++){
+            if (placement[i] == ""){
+                return false;
             }
         }
-        this.hints.getChildren().add(showPiece);
-        hideHint();
+        return true;
     }
     public void hideHint(){
         this.hints.setOpacity(0);
@@ -507,14 +533,14 @@ public class Board extends Application {
     }
     private void showHints(Scene scene){
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.R) {
+            if (event.getCode() == KeyCode.SLASH) {
                 showHint();
                 pieces.setOpacity(0);
                 event.consume();
             }
         });
         scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.R) {
+            if (event.getCode() == KeyCode.SLASH) {
                 hideHint();
                 pieces.setOpacity(1);
                 pieces.toFront();
