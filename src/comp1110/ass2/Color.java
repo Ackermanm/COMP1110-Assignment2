@@ -1,7 +1,10 @@
 package comp1110.ass2;
 
+/**
+ * Create different enum types to represent piece colors.
+ */
 public enum Color {
-    GREEN, BLUE, RED, WHITE, NONE, FATHER;
+    GREEN, BLUE, RED, WHITE, NONE, B;
 
     public char toChar() {
         if (this == GREEN) {
@@ -18,7 +21,6 @@ public enum Color {
             return 'F';
         }
     }
-
 
     public static Color toColor(char c) {
         switch (c) {

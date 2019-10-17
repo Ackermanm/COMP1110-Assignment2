@@ -14,7 +14,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,20 +45,17 @@ public class Board extends Application {
     private static DropShadow dropShadow;
 
     private final Group root = new Group();
-    private final Group board = new Group();
-    private final Group pieces = new Group();
-    private final Group challenge = new Group();
-    private final Group hints = new Group();
+    private final Group board = new Group(); // Group that set board.
+    private final Group pieces = new Group(); // Group that put pieces.
+    private final Group challenge = new Group(); // Group that create new challenges.
+    private final Group hints = new Group(); //Group that provide next hints.
     private final Group controls = new Group();
-    private final Slider level = new Slider();
+    private final Slider level = new Slider(); // Bottom bar to control difficults.
 
     private static final int ROTATION_THRESHOLD = 50;
 
-    String[] placement= new String[10];
-    int[] pieceState = new int[10];
-
-    String solutionString = "a000b013c113d302e323f400g420h522i613j701";
-    String challengeString = "RRRBWBBRB";
+    String[] placement= new String[10]; // Record placements that have been put on the board.
+    int[] pieceState = new int[10]; // Record placements that have been put on the board in number.
 
     public Board() {
         for (int i = 0; i < placement.length; i++){
@@ -71,6 +67,12 @@ public class Board extends Application {
         level = 1;
     }
 
+    /**
+     * Return rotation given a character.
+     * @param rotation The character that represent rotation type.
+     * @return Return rotation given a character.
+     * @author Yafei Liu(u6605935)
+     */
     public Rotation charToRotation(char rotation){
         switch (rotation){
             case '0':return Rotation.ZERO;
@@ -81,6 +83,12 @@ public class Board extends Application {
         return Rotation.ZERO;
     }
 
+    /**
+     * Return piece type given a character.
+     * @param piece The character that reprente piece type.
+     * @return Return piece type given a character.
+     * @author Yafei Liu(u6605935)
+     */
     public PieceType pieceToPieceType(char piece) {
         switch (piece){
             case 'a':return PieceType.A;
@@ -97,10 +105,13 @@ public class Board extends Application {
         return PieceType.A;
     }
 
+    /**
+     * The class that make up different piece.
+     * @piece Character that represents piece.
+     * @rotation character that represents rotation.
+     * @author Yafei Liu(u6605935)
+     */
     class ShowPiece extends ImageView {
-        ShowPiece(char piece){
-
-        }
         ShowPiece(char piece, char rotation) {
             if (piece < 'a' || piece > 'j') {
                 throw new IllegalArgumentException("Invalid piece: " + piece);
@@ -129,6 +140,10 @@ public class Board extends Application {
         }
     }
 
+    /**
+     * Create base board.
+     * @author Yafei Liu(u6605935)
+     */
     void makeBoard() {
         board.getChildren().clear();
         ImageView baseBoard = new ImageView();
@@ -143,6 +158,15 @@ public class Board extends Application {
     }
 
     // FIXME Task 7: Implement a basic playable Focus Game in JavaFX that only allows pieces to be placed in valid places
+
+    /**
+     * DraggablePiece class is to create pieces that can be dragged.
+     * @piece Character that represents piece.
+     * @originX,originY The origin coordinates that each piece is put.
+     * @mouseX,mouseY The coordinates of mouse.
+     * @rotation A scalar that represents a rotation.
+     * @author Yafei Liu(u6605935)
+     */
     class DraggablePiece extends ImageView{
         char piece;
         int originX,originY;
@@ -197,6 +221,14 @@ public class Board extends Application {
             });
         }
 
+        /**
+         * This method is to snap a piece to grid. When a piece is dragged on the board and the user release mouse,
+         * the piece will be put on one grid which is the closest grid it is.
+         *
+         * This method is realized by computing distances of piece itself and every grid the board have, and snap it
+         * on the grid which the distance is the smallest.
+         * @author Yafei Liu(u6605935)
+         */
         public void snapToGrid() {
             if (onBoard()) {
                 int[] layout = transformLayout();
@@ -232,8 +264,14 @@ public class Board extends Application {
             hints();
             checkCompletion();
         }
-        public void initialization(String placementString){
 
+        /**
+         * This method is to initialize some pieces give a placement string. This can be used to create different
+         * difficulties games by initialize different numbers pieces on it.
+         * @param placementString A string that represents placement which need to be initialized.
+         * @author Yafei Liu(u6605935)
+         */
+        public void initialization(String placementString){
             int[] layout = new int[2];
             layout[0] = placementString.charAt(1) - '0';
             layout[1] = placementString.charAt(2) - '0';
@@ -259,6 +297,13 @@ public class Board extends Application {
             setRotate(rotation * 90);
             toFront();
         }
+
+        /**
+         * Return the coordinates where a piece is by calculating the layout of a piece on board.
+         * @return Return the coordinates where a piece is. The first integer of the array is X coordinate, and
+         * the second integer in the array is Y coordinate.
+         * @author Yafei Liu(u6605935)
+         */
         public int[] transformLayout(){
             double[][] distance = new double[5][9];
             int[] layout = new int[2];
@@ -267,7 +312,8 @@ public class Board extends Application {
             int columnLocation = -1;
             double x = 0;
             double y = 0;
-            if (rotation == 1 || rotation == 3) {
+            if (rotation == 1 || rotation == 3) { /* When rotation is 1 and 3, the piece itself is not on the coordinates
+             it should be due to rotate deviation. So we move back the coordinate it should be.*/
                 if (piece == 'a' || piece == 'd' || piece == 'e' || piece == 'g') {
                     x = (getLayoutX() + 0.5 * SQUARE_SIZE - PLAY_AREA_X) / SQUARE_SIZE;
                     y = (getLayoutY() - 0.5 * SQUARE_SIZE - PLAY_AREA_Y) / SQUARE_SIZE;
@@ -304,6 +350,12 @@ public class Board extends Application {
             layout[1] = rowLocation;
             return layout;
         }
+
+        /**
+         * The method is used to snap a piece to its origin place if it is not well put, Such as overlap other piece of
+         * put out of board.
+         * @author Yafei Liu(u6605935)
+         */
         private void snapToOrigin(){
             rotation = -1;
             rotate();
@@ -312,18 +364,26 @@ public class Board extends Application {
             pieceState[piece-'a'] = 0;
             placement[piece-'a'] = "";
             }
+
+        /**
+         * Rotate a piece. when rotation a not symmetric graph, the graph is rotate by its central, which cause the top left
+         * of the piece is not at its origin top left coordinate. So we need to give it some offset when rotate.
+         *
+         * Rotate 180 and 360 will come back to its origin top left.
+         * @author Yafei Liu(u6605935)
+         */
         private void rotate() {
             rotation = (rotation + 1) % 4;
             int[] layout = transformLayout();
             boardIsPlacementValid(layout);
             setRotate(rotation * 90);
-            if (rotation == 1 || rotation == 3) {
+            if (rotation == 1 || rotation == 3) { /*Piece a d e g have 0.5 size deviation when rotate*/
                 if (piece == 'a' || piece == 'd' || piece == 'e' || piece == 'g') {
                     setLayoutX(getLayoutX() - 0.5 * SQUARE_SIZE);
                     setLayoutY(getLayoutY() + 0.5 * SQUARE_SIZE);
                 }
 
-                else if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {
+                else if (piece == 'b' || piece == 'c' || piece == 'j' ||  piece == 'f') {  /*Piece b c j f have 0.5 size deviation when rotate*/
                     setLayoutX(getLayoutX() - SQUARE_SIZE);
                     setLayoutY(getLayoutY() + SQUARE_SIZE);
                 }
@@ -350,6 +410,11 @@ public class Board extends Application {
             toFront();
         }
 
+        /**
+         * Return true if the piece is put on board, false if it is not.
+         * @return Return true if the piece is put on board, false if it is not.
+         * @author Yafei Liu(u6605935)
+         */
         public boolean onBoard(){
             if (getLayoutX() < PLAY_AREA_X - SQUARE_SIZE) return false;
             if (getLayoutY() < PLAY_AREA_Y - SQUARE_SIZE) return false;
@@ -357,6 +422,13 @@ public class Board extends Application {
             if (getLayoutY() > BOARD_Y + BOARD_HEIGHT + SQUARE_SIZE) return false;
             return true;
         }
+
+        /**
+         *
+         * @param layout The coordinates of a piece on board, layout[0] is X coordinate, layout[1] is Y coordinate.
+         * @return True if a piece if valid, which contains not overlap other piece already on board and not out of board.
+         * @author Yafei Liu(u6605935)
+         */
         public boolean boardIsPlacementValid(int[] layout){
             if (pieceState[piece-'a'] == 1){
                 pieceState[piece-'a'] = 0;
@@ -376,6 +448,12 @@ public class Board extends Application {
             }
             else return false;
         }
+
+        /**
+         * True if all the pieces are put on the board and is consistent with challenge.
+         * @return True if all the pieces are put on the board and is consistent with challenge.
+         * @author Yafei Liu(u6605935)
+         */
         public boolean checkCompletion(){
             for (int i = 0; i < pieceState.length; i++){
                 if (pieceState[i] != 1) {
@@ -387,17 +465,19 @@ public class Board extends Application {
                 allPlacement += placement[i];
             }
             if (allPlacement.equals(SOLUTIONS[a].placement)){
-//                Stage stage = new Stage();
-//                stage.setTitle("Hi");
-//                Scene scene = new Scene(root, 300, 300);
-//                stage.setScene(scene);
-//                Text hi = new Text("Good job!");
-//                hi.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
-//                hi.setFill(Color.RED);
-//                hi.setOpacity(1.0);
-//                hints.getChildren().add(hi);
-//                stage.show();
-                System.out.println("Good job!");
+                Stage stage = new Stage();
+                stage.setTitle("Square");
+                Group root = new Group();
+                Scene scene = new Scene(root, 300, 300);
+                stage.setScene(scene);
+                Text hi = new Text("Good job!");
+                hi.setLayoutX(60);
+                hi.setLayoutY(150);
+                hi.setFont(Font.font("Tahoma", FontWeight.NORMAL, 40));
+                hi.setFill(Color.RED);
+                root.getChildren().add(hi);
+                stage.show();
+
                 return true;
             }
             return false;
@@ -406,6 +486,14 @@ public class Board extends Application {
 
     // FIXME Task 8: Implement challenges (you may use challenges and assets provided for you in comp1110.ass2.gui.assets: sq-b.png, sq-g.png, sq-r.png & sq-w.png)
 
+    /**
+     * Create a specific challenge given solution string and challenge string, different level prove some initialized pieces.
+     * @param solution A string that represents challenge solution.
+     * @param challenge A string that represents challenge.
+     * @param level A integer that represents difficulty. Level 0 will initialize three pieces on board, level 1 initialize 2 pieces
+     *              and level 2 initialize 1 piece while level 3 do not initialize any pieces.
+     * @author Yafei Liu(u6605935)
+     */
     public void challenges(String solution, String challenge, int level){
         this.challenge.getChildren().clear();
         this.pieces.getChildren().clear();
@@ -435,8 +523,12 @@ public class Board extends Application {
         hints();
     }
 
+    /**
+     * Make a difficulty control bar at the bottom of the game. Minimum difficulty is 1 and maximum difficulty is 4.
+     * @author Yafei Liu(u6605935)
+     */
     public void makeControls(){
-        Button button = new Button("Restart");
+        Button button = new Button("Restart"); // Press restart button can restart a game by different difficulties.
         button.setLayoutX(PLAY_AREA_X + 6*SQUARE_SIZE);
         button.setLayoutY(VIEWER_HEIGHT - 100);
         button.setOnAction(new EventHandler<ActionEvent>() {
@@ -455,7 +547,7 @@ public class Board extends Application {
         level.setMajorTickUnit(1);
         level.setMinorTickCount(0);
         level.setSnapToTicks(true);
-        level.setLayoutX(PLAY_AREA_X + 3.5 * SQUARE_SIZE);
+        level.setLayoutX(PLAY_AREA_X + 3.5 * SQUARE_SIZE); // Set slider's layout.
         level.setLayoutY(VIEWER_HEIGHT - 1.5 * SQUARE_SIZE);
         controls.getChildren().add(level);
 
@@ -465,6 +557,11 @@ public class Board extends Application {
         levelCaption.setLayoutY(VIEWER_HEIGHT - 100);
         controls.getChildren().add(levelCaption);
     }
+
+    /**
+     * Start a new game with a difficulty.
+     * @author Yafei Liu(u6605935)
+     */
     public static int a = 20;
     public void newGame(){
         hideHint();
@@ -476,11 +573,17 @@ public class Board extends Application {
             placement[i] = "";
         }
         Random random = new Random();
-        a = random.nextInt(120);
+        a = random.nextInt(119);
         challenges(SOLUTIONS[a].placement,SOLUTIONS[a].objective,lev);
     }
 
     // FIXME Task 10: Implement hints
+
+    /**
+     * Provide hints for a challenge, give the next piece in solution that you have not placed. If you already put a piece
+     * on board, I will not correct your put, I only give you the next piece in solution.
+     * @author Yafei Liu(u6605935)
+     */
     private void hints() {
         this.hints.getChildren().clear();
         int hintPiece = -1;
@@ -491,7 +594,8 @@ public class Board extends Application {
                 break;
             }
         }
-        if (checkFinish()){
+        if (checkFinish()){ /* If you finish all the pieces, then I do not provide you any hints cause there is no hint any more.
+         I show a good job text at draggable class if you complete the game.*/
         }
         else {
             hintplacement = SOLUTIONS[a].placement.substring(hintPiece * 4, hintPiece * 4 + 4);
@@ -515,6 +619,12 @@ public class Board extends Application {
             hideHint();
         }
     }
+
+    /**
+     *
+     * @return True if the game is completed.
+     * @author Yafei Liu(u6605935)
+     */
     public boolean checkFinish(){
         for (int i = 0; i < placement.length; i++){
             if (placement[i] == ""){
@@ -523,14 +633,30 @@ public class Board extends Application {
         }
         return true;
     }
+
+    /**
+     * Hide hint by set its opacity in 0 and let it to back.
+     * @author Yafei Liu(u6605935)
+     */
     public void hideHint(){
         this.hints.setOpacity(0);
         this.hints.toBack();
     }
+    /**
+     * Show hint by set its opacity in 1 and let it to front.
+     * @author Yafei Liu(u6605935)
+     */
+
     public void showHint(){
         this.hints.setOpacity(1);
         this.hints.toFront();
     }
+
+    /**
+     * Show hints by press key SLASH, hide hints by release SLASH.
+     * @param scene The scene that show hints.
+     * @author Yafei Liu(u6605935)
+     */
     private void showHints(Scene scene){
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SLASH) {
@@ -568,7 +694,10 @@ public class Board extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * This are solutions and corresponding challenges that I copy from TestUtility to complete task 8(give a new challenge).
+     * @author Yafei Liu(u6605935)
+     */
      static final Solution[] SOLUTIONS = {
             new Solution("RRRBWBBRB",
                     "a000b013c113d302e323f400g420h522i613j701"),

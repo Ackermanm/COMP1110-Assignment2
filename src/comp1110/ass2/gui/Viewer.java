@@ -137,6 +137,7 @@ public class Viewer extends Application {
      * Draw a placement in the window, removing any previously drawn one
      *
      * @param placement A valid placement string
+     * @author Yafei Liu(u6605935)
      */
     void makePlacement(String placement) {//Check valid placement, set rotation function.
         // FIXME Task 4: implement the simple placement viewer
@@ -174,6 +175,7 @@ public class Viewer extends Application {
 
     /**
      * Create a basic text field for input and a refresh button.
+     * @author Yafei Liu(u6605935)
      */
     private void makeControls() {
         Label label1 = new Label("Placement:");

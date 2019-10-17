@@ -1,5 +1,13 @@
 package comp1110.ass2;
 
+/**
+ * Store a piece's piecetyoe coordinates and rotation.
+ * @pieceType A enum type represents piece type.
+ * @location The coordinates of a piece.
+ * @rotation A enum type represents piece rotation.
+ * @author Yafei Liu(u6605935)
+ */
+
 public class Piece {
     private PieceType pieceType;
     private Location location;
@@ -23,6 +31,12 @@ public class Piece {
         return rotation;
     }
 
+    /**
+     * Return rotation type given a placement.
+     * @param placement A string represents a placement.
+     * @return Return rotation type given a placement.
+     * @author Yafei Liu(u6605935)
+     */
     public Rotation placementToRotation(String placement){
         for (int i=0;i<placement.length();i+=4){
             if (placement.charAt(i+3) == '0') {return Rotation.ZERO; }
@@ -33,6 +47,12 @@ public class Piece {
         return Rotation.ZERO;
     }
 
+    /**
+     * Return location type given a placement.
+     * @param placement A string represents a placement.
+     * @return Return location type given a placement.
+     * @author Yafei Liu(u6605935)
+     */
     public Location placementToLocation(String placement) {
         int x =  Integer.parseInt(Character.toString(placement.charAt(1)));
         int y =  Integer.parseInt(Character.toString(placement.charAt(2)));

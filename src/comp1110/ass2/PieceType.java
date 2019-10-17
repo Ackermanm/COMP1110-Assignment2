@@ -2,10 +2,27 @@ package comp1110.ass2;
 
 import static comp1110.ass2.Color.*;
 
+/**
+ * Enum type for piece type.
+ */
 import static comp1110.ass2.Rotation.*;
 public enum PieceType {
     A, B, C, D, E, F, G, H, I, J;
 
+    /**
+     * Return a color given a the x offset, y offset and its rotation.
+     *
+     *       G   G   G
+     *       W   W   R
+     *
+     * As the example above, x offset of R is 1 , y offset is 2.
+     *
+     * @param xoff The x offset from its top left coordinates.
+     * @param yoff The y offset from its top left coordinates.
+     * @param rotation Rotation of the piece.
+     * @return Return a color given a the x offset, y offset and its rotation.
+     * @author Yafei Liu(u6605935)
+     */
     public Color colorFromOffSet(int xoff, int yoff, Rotation rotation) {
         if (this == A || this == D || this == E || this == G) {
             if (xoff < 0 || yoff < 0 || xoff > 2 || yoff > 2) return null;
@@ -79,6 +96,7 @@ public enum PieceType {
         }
         return null;
     }
+
     private static Color[][] colormap = {
             {Color.GREEN,Color.NONE,Color.WHITE,Color.RED,Color.RED,Color.NONE},
             {Color.NONE,Color.WHITE,Color.BLUE,Color.WHITE,Color.GREEN,Color.NONE,Color.GREEN,Color.NONE},
@@ -92,6 +110,15 @@ public enum PieceType {
             {Color.GREEN,Color.GREEN,Color.GREEN,Color.NONE,Color.WHITE,Color.NONE,Color.RED,Color.NONE}
 
     };
+
+    /**
+     * Return right corner location given the piece coordinate and its rotation.
+     * @param originalX X coordinate of this piece.
+     * @param originalY Y coordinate of this piece.
+     * @param rotation Rotation of this piece.
+     * @return Return right corner location given the piece coordinate and its rotation.
+     * @author Yafei Liu(u6605935)
+     */
     public Location getRightCornerLocation(int originalX, int originalY, Rotation rotation){
         Location rithtCornerLoation = new Location();//leftAndRightLoaction[0] and [1] are the lower right corner of this piece.
         if (this == A || this == D || this == E || this == G){
@@ -144,6 +171,12 @@ public enum PieceType {
         return rithtCornerLoation;
     }
 
+    /**
+     * Return length and height of the piece.
+     * @param rotation Rotation of the piece.
+     * @return Return location which now represents the length and height of the piece's.
+     * @author Yafei Liu(u6605935)
+     */
     public Location getLengthAndHeight(Rotation rotation){
         Location rithtCornerLoation = new Location();//leftAndRightLoaction[0] and [1] are the lower right corner of this piece.
         if (this == A || this == D || this == E || this == G){

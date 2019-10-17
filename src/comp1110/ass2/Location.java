@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+/**
+ * This class is used to record location of a piece. Integer X is the row of a piece and Y is the column of a piece.
+ */
 public class Location {
     private int X;
     private int Y;

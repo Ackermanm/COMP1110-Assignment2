@@ -1,16 +1,10 @@
 package comp1110.ass2;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertTrue;
-
-import comp1110.ass2.Color.*;
-import comp1110.ass2.Piece.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static comp1110.ass2.Color.FATHER;
 import static comp1110.ass2.Color.NONE;
 
 /**
@@ -26,7 +20,7 @@ public class FocusGame {
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
             {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-            {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+            {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
 
     };
 
@@ -101,6 +95,7 @@ public class FocusGame {
      *
      * @param placement A placement string
      * @return True if the placement sequence is valid
+     * @author Yafei Liu(u6605935)
      */
     public static boolean isPlacementStringValid(String placement) {
         // FIXME Task 5: determine whether a placement string is valid
@@ -109,7 +104,7 @@ public class FocusGame {
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+                {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
 
         };
         for (int i = 0; i < placement.length(); i += 4) {
@@ -142,6 +137,14 @@ public class FocusGame {
         return true;
     }
 
+    /**
+     * True if placement can be put on this board. The board already have some pieces on it which means the board is not
+     * clean. I check whether placement can be put on this board.
+     * @param boardstates A board states that have already put some placement on it.
+     * @param placement A String that will be put on the board.
+     * @return True if placement can be put on this board.
+     * @author Yafei Liu(u6605935)
+     */
     public static boolean isPlacementStringValid(Color[][] boardstates, String placement) {
         for (int i = 0; i < placement.length(); i += 4) {
             String pieceString = placement.substring(i, i + 4);
@@ -173,13 +176,18 @@ public class FocusGame {
         return true;
     }
 
+    /**
+     * Initialize a board.
+     * @return Return a initialized board.
+     * @author Yafei Liu(u6605935)
+     */
     public static Color[][] initialize() {
         Color[][] board = {
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+                {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
         };
         return board;
     }
@@ -190,7 +198,7 @@ public class FocusGame {
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+                {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
         };
         //Update board states by challenge.
         int k = 0;
@@ -209,13 +217,19 @@ public class FocusGame {
         return boardstates;
     }
 
+    /**
+     *
+     * @param challenge A string represents challenge.
+     * @return Return a new board which updates challenge.
+     * @author Yafei Liu(u6605935)
+     */
     public static Color[][] newBoardWithChallenge(String challenge) {
         Color[][] boardstates = {
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+                {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
         };
         //Update board states by challenge.
         int k = 0;
@@ -228,13 +242,19 @@ public class FocusGame {
         return boardstates;
     }
 
+    /**
+     * Return a board states that updates placement on a blank board.
+     * @param placement A string that represents placement.
+     * @return Return a board states that updates placement.
+     * @author Yafei Liu(u6605935)
+     */
     public static Color[][] updateBoardstates(String placement) {
         Color[][] boardstates = {
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
                 {Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE},
-                {Color.FATHER, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.FATHER},
+                {Color.B, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.NONE, Color.B},
         };
         if (FocusGame.isPlacementStringValid(placement)) {
             for (int i = 0; i < placement.length(); i += 4) {
@@ -258,6 +278,13 @@ public class FocusGame {
         return boardstates;
     }
 
+    /**
+     * Return a board states that updates placement.
+     * @param boardstates A two dimension arrays represents color states.
+     * @param placement A placement string.
+     * @return Return a board states that updates placement.
+     * @author Yafei Liu(u6605935)
+     */
     public static Color[][] updateBoardstates(Color[][] boardstates, String placement) {
         for (int i = 0; i < placement.length(); i += 4) {
             String pieceString = placement.substring(i, i + 4);
@@ -279,15 +306,13 @@ public class FocusGame {
         return boardstates;
     }
 
-    public static void seeMap(Color[][] boardstates) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(boardstates[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
+    /**
+     * Return true if the first board is consistent with the second board only in the challenge place.
+     * @param withChallenge A board states that only updated challenge on it.
+     * @param noChallenge A board states that have some piece placements updated on it.
+     * @return Return true if the first board is consistent with the second board only in the challenge place.
+     * @author Yafei Liu(u6605935)
+     */
     public static boolean placeConsistentWithChallenge(Color[][] withChallenge, Color[][] noChallenge) {
         for (int i = 1; i < 4; i++) {
             for (int j = 3; j < 6; j++) {
@@ -300,6 +325,13 @@ public class FocusGame {
         return true;
     }
 
+    /**
+     * Return true if challenge string is consistent with placement string.
+     * @param challenge A challenge string.
+     * @param placement A placement string.
+     * @return Return true if challenge string is consistent with placement string.
+     * @author Yafei Liu(u6605935)
+     */
     public static boolean placeConsistentWithChallenge(String challenge, String placement) {
         Color[][] withChallenge = newBoardWithChallenge(challenge);
         Color[][] noChallenge = updateBoardstates(placement);
@@ -338,6 +370,7 @@ public class FocusGame {
      * @param col       The cell's column.
      * @param row       The cell's row.
      * @return A set of viable piece placements, or null if there are none.
+     * @author Yafei Liu(u6605935)
      */
 
 
@@ -397,9 +430,12 @@ public class FocusGame {
      * - If a piece exhibits rotational symmetry, only return the lowest
      * orientation value (0 or 1)
      *
+     *
+     * @notice This is a overload method for Task6 method, the only difference is thay I delete placement -- fxy2, fxy3, gxy2, gxy3.
      * @param challenge A challenge string.
      * @return A placement string describing a canonical encoding of the solution to
      * the challenge.
+     * @author Yafei Liu(u6605935)
      */
 
     static Set<String> getViablePiecePlacements1(String placement, String challenge, int col, int row) {
@@ -444,7 +480,7 @@ public class FocusGame {
 
         if (set.size() == 0) {
             return null;
-        } else {
+        } else { // delete placement fxy2, fxy3, gxy2, gxy3
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (set.contains("f" + j + "" + i + "" + 2) && set.contains("f" + j + "" + i + "" + 0)) {
